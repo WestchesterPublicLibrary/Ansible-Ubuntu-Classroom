@@ -1,0 +1,16 @@
+---
+# Enable UFW
+- ufw: state=enabled
+
+# Allow OpenSSH
+- ufw: rule=allow name=OpenSSH
+
+# Allow all access to tcp port 80:
+- ufw: rule=allow port=80 proto=tcp
+
+# Allow all access from RFC1918 networks to this host:
+- ufw: rule=allow src={{ item }}
+  with_items:
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16

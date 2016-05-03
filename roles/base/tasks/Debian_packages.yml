@@ -3,7 +3,10 @@
 - name: Remove unneeded packages
   apt: state=absent purge=yes name={{item}}
   with_items:
-    - dell-super-key
+    - transmission
+    - hexchat
+    - thunderbird
+    - pidgin
 
 # Install Files
 - name: Install needed packages
@@ -33,3 +36,4 @@
     - libx11-6
     - libx11-dev
     - libx11-guitest-perl
+    - gnome-boxes

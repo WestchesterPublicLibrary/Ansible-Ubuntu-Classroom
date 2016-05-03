@@ -1,0 +1,6 @@
+---
+- hosts: itClassroom
+  become: true
+  roles:
+    - update
+    #- shutdown

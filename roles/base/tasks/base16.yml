@@ -12,15 +12,15 @@
 
 - name: base16 - copy monokai-dark
   copy:
-    src: "/home//setup/base16-gnome/base16-mocha.dark.sh"
-    dest: "/home//base16-mocha.dark.sh"
+    src: "/home/setup/base16-gnome/base16-mocha.dark.sh"
+    dest: "/home/base16-mocha.dark.sh"
     mode: 0755
 
 - name: base16 - install monokai dark
-  command: "/home//base16-monokai.dark.sh"
+  command: "/home/base16-monokai.dark.sh"
 
 - name: base16 - install mocha dark
-  command: "/home//base16-mocha.dark.sh"
+  command: "/home/base16-mocha.dark.sh"
 
 - name: base16 - set system font to source code pro
   gconftool-2:

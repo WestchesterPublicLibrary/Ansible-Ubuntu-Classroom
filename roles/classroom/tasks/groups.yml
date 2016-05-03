@@ -1,0 +1,3 @@
+---
+# Making sure that btsync group exsists
+- group: name=btsync state=present

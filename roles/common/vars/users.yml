@@ -1,0 +1,37 @@
+---
+# The location where the pubkeys can be found.
+#users_default_pubkey_location: '{{ playbook_dir }}/files/pubkeys/{{ inventory_hostname }}/'
+
+#users_available:
+#  - username: it
+#    uid: 1001
+#    name: "IT User"
+#    home: "/home/it"
+#    upload_key: True
+#    auth_file: "foocustom.pub" # define specific pubkey file (otherwise it will assume username.pub)
+
+users_available:
+  - username: remote
+    uid: 1088
+    gid: 129,27
+    name: "IT Remote User"
+    home: "/home/remote"
+    upload_key: True
+    auth_file: "foocustom.pub" # define specific pubkey file (otherwise it will assume username.pub)
+
+
+#  - username: bar
+#    uid: 1002
+#    gid: 1080
+#    name: "Hello World"
+#    upload_key: true
+
+#users_deleted:
+#  - username: barfoo
+
+users_groups_available:
+  - groupname: btsync
+#    gid: 1050
+#  - groupname: sysgroup
+#    gid: 801
+#    is_system_group: True

@@ -1,0 +1,7 @@
+---
+- hosts: itClassroom
+  become: true
+  roles:
+    - common
+    - classroom
+    - arduino

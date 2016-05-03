@@ -1,6 +1,13 @@
-[main]
-localhost
+[itClassroom]
+itClassroom[01:18]
 
-[main:vars]
-ansible_connection=local
+
+[itClassroom:vars]
+ansible_user=remote
+ansible_ssh_private_key_file=~/.ssh/remote.pub
+deploy_target=remote
+
+[ssh_connection]
+pipelining=True
+accept_hostkey=yes
 become_ask_pass=True
