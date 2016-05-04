@@ -1,7 +1,6 @@
 ---
 - hosts: all
   become: true
-  connection: local
   pre_tasks:
     - name: Update apt cache if needed.
       apt: update_cache=yes cache_valid_time=3600
@@ -23,7 +22,6 @@
     - { role: vcabourdin.chrome }
     - { role: mglaman.atom }
     - { role: mjanser.powerline }
-    - yubikey
 
   #    - reboot
 

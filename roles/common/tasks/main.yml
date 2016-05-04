@@ -13,13 +13,6 @@
 # Install Files
 - apt: state=present name={{item}}
   with_items:
-   # Screensavers
-#    - xscreensaver-gl
-#    - xscreensaver-gl-extra
-#    - xscreensaver-screensaver-dizzy
-#    - xscreensaver-screensaver-webcollage
-#    - xscreensaver-data-extra
-#    - rss-glx
     # Core Desktop Tools
     - python-software-properties
     - htop
