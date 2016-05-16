@@ -7,3 +7,10 @@
   - arduino-core
 
 - include: permissions.yml
+
+- name: Placing Icon on Desktop of Public User
+  copy:
+    src: "files/arduino.desktop"
+    dest: "/home/public/Desktop/"
+    mode: 0755
+  register: fonts_copied
