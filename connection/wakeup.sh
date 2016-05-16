@@ -6,4 +6,4 @@
 
 scriptLOC="/home/joe/Documents/src/rw/Ubuntu_Classroom/connection"
 
-awake -f $scriptLOC/itClassroom.wol
+awake -f $PWD/itClassroom.wol
