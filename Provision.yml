@@ -19,6 +19,7 @@
     - base
     - developer
     - arduino
+    - minecraft
     - { role: vcabourdin.chrome }
     - { role: mglaman.atom }
     - { role: mjanser.powerline }
