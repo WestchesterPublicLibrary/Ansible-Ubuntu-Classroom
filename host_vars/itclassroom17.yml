@@ -1,0 +1,6 @@
+---
+network_ether_interfaces:
+ - device: enp4s0
+   bootproto: dhcp
+ - device: eth2
+   bootproto: dhcp

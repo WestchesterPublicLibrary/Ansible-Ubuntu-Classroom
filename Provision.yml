@@ -20,9 +20,10 @@
     - developer
     - arduino
     - minecraft
-    - { role: vcabourdin.chrome }
-    - { role: mglaman.atom }
-    - { role: mjanser.powerline }
+    - vcabourdin.chrome
+    - mglaman.atom
+    - mjanser.powerline
+    - spk.syncthing-debian
 
   #    - reboot
 
@@ -30,6 +31,7 @@
     - vars/firewall.yml
     - vars/powerline.yml
     - vars/atom.yml
+    - vars/syncthing.yml
 
 
 # Modules from https://github.com/JBKahn/provisioning-local.git
