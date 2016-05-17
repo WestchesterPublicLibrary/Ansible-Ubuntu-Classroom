@@ -1,27 +1,23 @@
 ---
-# Run the equivalent of "apt-get update" as a separate step
-#- apt: update_cache=yes name={{item}}
-#  with_items:
-#  - arduino
-#  - arduino-core
-
-#- include: permissions.yml
-
 - name: ArduBlockTool Creating Directory
   file:
-    path: "/home/public/sketchbook/tools/ArduBlockTool/tool/"
+    path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
     state: directory
     mode: 0755
+  with_items:
+    - "{{arduino_users}}"
 
 - name: Placing ArduBlockTool into IDE
   copy:
     src: "files/ardublock-all.jar"
-    dest: "/home/public/sketchbook/tools/ArduBlockTool/tool/"
+    dest: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
     mode: 0755
+  with_items:
+    - "{{arduino_users}}"
   register: file_copied
 
-- name: Fixing Permissions Files
-  file: path=/home/public/sketchbook/tools/ArduBlockTool/tool/ardublock-all.jar owner=public group=public mode=0644
-
 - name: Fixing Permissions Directory
-  file: path=/home/public/sketchbook/tools/ArduBlockTool/tool owner=public group=public recurse=yes
+  file: path=/home/{{item}}/arduino/tools/ArduBlockTool/tool owner={{item}} group={{item}} recurse=yes
+  with_items:
+    - "{{arduino_users}}"
+- include: permissions.yml
