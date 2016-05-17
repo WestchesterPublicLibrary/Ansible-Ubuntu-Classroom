@@ -1,16 +1,27 @@
 ---
 # Run the equivalent of "apt-get update" as a separate step
-- name: Installing required Arduino files
-  apt: update_cache=yes name={{item}}
-  with_items:
-  - arduino
-  - arduino-core
+#- apt: update_cache=yes name={{item}}
+#  with_items:
+#  - arduino
+#  - arduino-core
 
-- include: permissions.yml
+#- include: permissions.yml
 
-- name: Placing Icon on Desktop of Public User
-  copy:
-    src: "files/arduino.desktop"
-    dest: "/home/public/Desktop/"
+- name: ArduBlockTool Creating Directory
+  file:
+    path: "/home/public/sketchbook/tools/ArduBlockTool/tool/"
+    state: directory
     mode: 0755
-  register: fonts_copied
+
+- name: Placing ArduBlockTool into IDE
+  copy:
+    src: "files/ardublock-all.jar"
+    dest: "/home/public/sketchbook/tools/ArduBlockTool/tool/"
+    mode: 0755
+  register: file_copied
+
+- name: Fixing Permissions Files
+  file: path=/home/public/sketchbook/tools/ArduBlockTool/tool/ardublock-all.jar owner=public group=public mode=0644
+
+- name: Fixing Permissions Directory
+  file: path=/home/public/sketchbook/tools/ArduBlockTool/tool owner=public group=public recurse=yes

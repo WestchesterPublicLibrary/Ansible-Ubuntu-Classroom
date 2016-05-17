@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: Update apt cache if needed.
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == "Debian"
+
+    - name: Update System
+      apt: upgrade=dist
+      when: ansible_os_family == "Debian"
+
+    # This is for Ansible 2.1
+    - name: Cleaning up System
+      apt: autoremove=true
+      when: (ansible_version.major == 2) and (ansible_version.minor >=1) and (ansible_os_family == "Debian")
+
+  roles:
+    - arduino
+
+  #    - reboot
+
+  vars_files:
+    - vars/firewall.yml
+    - vars/powerline.yml
+    - vars/atom.yml
+    - vars/syncthing.yml
+
+
+# Modules from https://github.com/JBKahn/provisioning-local.git
