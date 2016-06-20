@@ -1,3 +1,39 @@
 ---
   #- include: font.yml
 #  - include: base16.yml
+- name: Include User Variables
+  include_vars: users.yml
+
+
+- name: Create groups before users
+  group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{base_groups}}"
+
+
+- name: Create System Accounts
+  user:
+    state: "{{baseUsers.state}}"
+    name: "{{baseUsers.name}}"
+    createhome: "{{baseUsers.createhome}}"
+    groups: "{{baseUsers.groups}}"
+  with_items:
+    - "{{base_users}}"
+  loop_control:
+    loop_var: baseUsers
+
+- name: Fix Public Password
+  user:
+    name: public
+    state: present
+    password: public
+
+- name: Deploy keys
+  authorized_key:
+    user: it
+    key: "{{ lookup('file', '/home/joe/.ssh/remote.pub') }}"
+    path: '/etc/ssh/authorized_keys/joeLaptop'
+
+# - include: "all_gconf.yml"

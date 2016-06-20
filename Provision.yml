@@ -11,9 +11,9 @@
       when: ansible_os_family == "Debian"
 
     # This is for Ansible 2.1
-    - name: Cleaning up System
-      apt: autoremove=true
-      when: (ansible_version.major == 2) and (ansible_version.minor >=1) and (ansible_os_family == "Debian")
+    # - name: Cleaning up System
+    #  apt: autoremove=true
+    #  when: (ansible_version.major == 2) and (ansible_version.minor >=1) and (ansible_os_family == "Debian")
 
   roles:
     - base
@@ -21,7 +21,7 @@
     - arduino
     - minecraft
     - vcabourdin.chrome
-    - mglaman.atom
+  #  - mglaman.atom
     - mjanser.powerline
     - spk.syncthing-debian
 
@@ -33,5 +33,7 @@
     - vars/atom.yml
     - vars/syncthing.yml
 
-
+  post_tasks:
+    - name: Give Public back their home
+      file: path=/home/public/ owner=public group=public mode=0755
 # Modules from https://github.com/JBKahn/provisioning-local.git

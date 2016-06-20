@@ -1,0 +1,27 @@
+---
+  base_groups:
+    - public
+    - adm
+    - cdrom
+    - dip
+    - plugdev
+    - sambashare
+    - libvirtd
+    - public
+    - it
+    - sync
+
+
+  base_users:
+    - name: public
+      comment: "Default Public login account"
+      createhome: yes
+      state: present
+      password: public
+      groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd
+
+    - name: it
+      comment: "Default IT Administrative login account"
+      createhome: yes
+      state: present
+      groups: it,adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare,libvirtd

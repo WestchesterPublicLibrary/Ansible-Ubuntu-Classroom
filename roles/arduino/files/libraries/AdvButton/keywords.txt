@@ -1,0 +1,33 @@
+#######################################
+# Syntax Coloring Map For Timer Library
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AdvButton		KEYWORD1
+ButtonManager	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+checkButtons	KEYWORD2
+addButton		KEYWORD2
+check			KEYWORD2
+setOnKeyPress	KEYWORD2
+setOnKeyDown	KEYWORD2
+setOnKeyUp		KEYWORD2
+setRepeat		KEYWORD2
+setStartDelay	KEYWORD2
+setPin			KEYWORD2
+getPressTime	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################

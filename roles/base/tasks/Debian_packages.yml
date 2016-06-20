@@ -1,16 +1,18 @@
 ---
 # Remove Files
 - name: Remove unneeded packages
-  apt: state=absent purge=yes name={{item}}
+  apt: state=absent purge=yes name={{uninstall}}
   with_items:
     - transmission
     - hexchat
     - thunderbird
     - pidgin
+  loop_control:
+    loop_var: uninstall
 
 # Install Files
 - name: Install needed packages
-  apt: state=present name={{item}}
+  apt: state=present name={{ install }}
   with_items:
    # Screensavers
     - xscreensaver-gl
@@ -37,3 +39,5 @@
     - libx11-dev
     - libx11-guitest-perl
     - gnome-boxes
+  loop_control:
+    loop_var: install

@@ -1,0 +1,10 @@
+---
+- name: Set GconfSettings idle-delay
+  gconftool-2:
+    key: "/org/gnome/desktop/session/idle-delay"
+    string: "0"
+
+- name: Set GconfSettings lock-enabled
+  gconftool-2:
+    key: "/org/gnome/desktop/screensaver/lock-enabled"
+    string: "false"
