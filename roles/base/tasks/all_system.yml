@@ -13,22 +13,30 @@
     - "{{base_groups}}"
 
 
-- name: Create System Accounts
+- name: Create Public User
   user:
-    state: "{{baseUsers.state}}"
-    name: "{{baseUsers.name}}"
-    createhome: "{{baseUsers.createhome}}"
-    groups: "{{baseUsers.groups}}"
-  with_items:
-    - "{{base_users}}"
-  loop_control:
-    loop_var: baseUsers
-
-- name: Fix Public Password
-  user:
-    name: public
     state: present
-    password: public
+    comment: "Public User"
+    name: public
+    createhome: yes
+    password: "$6$7aUMFzunHBz6eN$YFpmYsvxK.hjtDHxf6cwY9Fe.ujGijvla04gxxKdVDwrrN6pOkKTh3isBsxcAU1MqoZ6Kk3rzJuLBwGtZDX1H."
+#    groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd
+
+- name: Create IT User
+  user:
+    comment: "IT User"
+    state: present
+    name: it
+    createhome: yes
+#    groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd,sudo
+
+- name: Create Remote
+  user:
+    comment: "Remote"
+    state: present
+    name: remote
+    createhome: yes
+#    groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd,sudo
 
 - name: Deploy keys
   authorized_key:
@@ -37,3 +45,15 @@
     path: '/etc/ssh/authorized_keys/joeLaptop'
 
 # - include: "all_gconf.yml"
+
+- name: Autologin Public Create Directory
+  file:
+    path: "/etc/lightdm/lightdm.conf.d/"
+    state: directory
+    mode: 0755
+
+- name: Autologin Public User file
+  copy:
+    src: "files/autologinpublic.conf"
+    dest: "/etc/lightdm/lightdm.conf.d/"
+    mode: 0755

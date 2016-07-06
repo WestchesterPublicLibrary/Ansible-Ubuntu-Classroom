@@ -1,8 +1,0 @@
-[itClassroom]
-# itClassroom[01:18]
-itClassroom12
-
-[itClassroom:vars]
-ansible_user=it
-ansible_ssh_private_key_file=/home/joe/.ssh/remote.pub
-deploy_target=it

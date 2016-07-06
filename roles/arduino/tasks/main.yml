@@ -17,15 +17,26 @@
   register: file_copied
 
 - name: Placing Arduino Files into IDE
-  # Synchronization without any --archive options enabled
-  synchronize:
-    src: files/
-    dest: /home/{{item}}/arduino/tools
-    archive: no
-    recursive: yes
+  copy:
+    src: "files/ardublock-all.jar"
+    dest: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
+    mode: 0755
   with_items:
     - "{{arduino_users}}"
   register: file_copied
+
+
+
+#- name: Placing Arduino Files into IDE
+  # Synchronization without any --archive options enabled
+#  synchronize:
+#    src: files/
+#    dest: /home/{{item}}/arduino/tools
+#    archive: no
+#    recursive: yes
+#  with_items:
+#    - "{{arduino_users}}"
+#  register: file_copied
 
 
 - name: Fixing Permissions Directory

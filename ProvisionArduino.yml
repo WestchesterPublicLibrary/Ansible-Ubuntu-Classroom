@@ -21,10 +21,7 @@
   #    - reboot
 
   vars_files:
-    - vars/firewall.yml
-    - vars/powerline.yml
-    - vars/atom.yml
-    - vars/syncthing.yml
+    - vars/vault.yml
 
 
 # Modules from https://github.com/JBKahn/provisioning-local.git
