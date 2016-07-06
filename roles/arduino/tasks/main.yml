@@ -1,4 +1,12 @@
 ---
+
+- name: Install Arduino -_-
+  # Install Debian Specific files.
+  apt: state=present name={{item}}
+  with_items:
+    - auduino
+    - auduino-core
+
 - name: ArduBlockTool Creating Directory
   file:
     path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
