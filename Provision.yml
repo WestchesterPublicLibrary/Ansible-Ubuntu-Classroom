@@ -30,7 +30,7 @@
     - vcabourdin.chrome
   #  - mglaman.atom
     - mjanser.powerline
-#    - spk.syncthing-debian
+#    - spk.syncthing-deb
 
   vars_files:
     - vars/vault.yml
@@ -43,4 +43,6 @@
   post_tasks:
     - name: Give Public back their home
       file: path=/home/public/ owner=public group=public mode=0755
+    - name: Reboot Computers
+      command: "/sbin/shutdown -r now"
 # Modules from https://github.com/JBKahn/provisioning-local.git

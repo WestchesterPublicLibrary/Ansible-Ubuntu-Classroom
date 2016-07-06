@@ -12,6 +12,8 @@
   include: "{{ genericCommands }}"
   with_items:
   - "all_system.yml"
+  - "all_packages.yml"
+  - "all_gconf.yml"
   loop_control:
     loop_var: genericCommands
 
