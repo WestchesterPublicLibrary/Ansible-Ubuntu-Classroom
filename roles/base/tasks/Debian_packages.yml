@@ -9,7 +9,6 @@
     - pidgin
     - cron-apt
 
-
 # Install Files
 - name: Install needed packages
   apt: state=present name={{ install }}
