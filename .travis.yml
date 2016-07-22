@@ -3,11 +3,6 @@ sudo: required
 
 env:
   - distribution: ubuntu
-    version: 14.04
-    init: /sbin/init
-    run_opts: ""
-    playbook: test.yml
-  - distribution: ubuntu
     version: 16.04
     init: /usr/lib/systemd/systemd
     run_opts: ""
@@ -16,20 +11,12 @@ env:
 services:
   - docker
 
-
 before_install:
   # Pull container
-  - 'sudo docker pull ${distribution}:${version}'
+  #- 'sudo docker pull ${distribution}:${version}'
+  - 'sudo docker pull ubuntu:16.04'
   # Customize container
-  - 'sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests'
-
-
-language: python
-python: "2.7"
-
-before_install:
-  # Make sure everything's up to date.
-  - sudo apt-get update -qq
+  - 'sudo docker build --rm=true --file=tests/Dockerfile.ubuntu-16.04 --tag=ubuntu-16.04:ansible tests'
 
 install:
   # Install Ansible.
@@ -38,9 +25,15 @@ install:
   # Add ansible.cfg to pick up roles path.
   - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
 
-script:
+  # Make sure everything's up to date.
+  - sudo apt-get update -qq
 
-  ansible-playbook -i tests/inventory tests/test.yml --syntax-check
-  # We'll add some commands to test the role here.
+language: python
+
+
+script:
+  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
   # Run the role/playbook with ansible-playbook.
-- "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo"
+  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo"
+  # Test role.
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/teststest.yml'
