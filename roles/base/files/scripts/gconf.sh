@@ -12,3 +12,4 @@ gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/background
 ### Adjust screensaver settings
 gconftool-2 --type bool --set /org/gnome/desktop/screensaver/lock-enabled False
 gconftool-2 --type string --set /org/gnome/desktop/session/idle-delay "0"
+
