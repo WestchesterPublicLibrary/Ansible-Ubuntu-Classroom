@@ -1,14 +1,14 @@
 ---
 # Remove Files
 - name: Remove unneeded packages
-  apt: state=absent purge=yes name={{uninstall}}
+  apt: state=absent purge=yes name={{item}}
   with_items:
     - transmission
     - hexchat
     - thunderbird
     - pidgin
-  loop_control:
-    loop_var: uninstall
+    - cron-apt
+
 
 # Install Files
 - name: Install needed packages

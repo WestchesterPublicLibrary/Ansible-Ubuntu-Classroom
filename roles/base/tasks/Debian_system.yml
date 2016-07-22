@@ -10,3 +10,7 @@
       src: "files/autologinpublic.conf"
       dest: "/etc/lightdm/lightdm.conf.d/"
       mode: 0755
+
+  - name: Copy update script and make it executable
+    copy: src=files/autoupdate.sh dest=/etc/cron.daily owner=root group=root mode=755 backup=yes
+

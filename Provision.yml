@@ -30,6 +30,11 @@
     - vcabourdin.chrome
   #  - mglaman.atom
     - mjanser.powerline
+<<<<<<< 064716b68e01f2bee66d7267e17d47fde186ba71
+=======
+
+  #    - reboot
+>>>>>>> Auto update of the machines
 
   vars_files:
     - vars/vault.yml
