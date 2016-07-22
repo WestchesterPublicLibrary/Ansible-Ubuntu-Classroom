@@ -1,4 +1,4 @@
-[![build status](http://gitlab.bitsandbytes.academy/joe/Ansible-Ubuntu-Classroom/badges/master/build.svg)](http://gitlab.bitsandbytes.academy/joe/Ansible-Ubuntu-Classroom/commits/master)
+[![Build Status](https://travis-ci.org/WestchesterPublicLibrary/Ansible-Ubuntu-Classroom.svg?branch=master)](https://travis-ci.org/WestchesterPublicLibrary/Ansible-Ubuntu-Classroom)
 
 `New classroom Config`
 
