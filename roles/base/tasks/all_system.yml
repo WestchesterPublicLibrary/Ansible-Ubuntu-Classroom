@@ -42,7 +42,7 @@
   authorized_key:
     user: it
     key: "{{ lookup('file', '/home/joe/.ssh/remote.pub') }}"
-    path: '/etc/ssh/authorized_keys/joeLaptop'
+    path: '/etc/ssh/authorized_keys/it'
 
 # - include: "all_gconf.yml"
 
@@ -57,3 +57,57 @@
     src: "files/autologinpublic.conf"
     dest: "/etc/lightdm/lightdm.conf.d/"
     mode: 0755
+
+- name: Copy bashrc file
+  copy:
+    src: 'files/bashrc'
+    dest: "/home/{{ item }}/.bashrc"
+    mode: 0644
+    group: "{{ item }}"
+    owner: "{{ item }}"
+  with_items:
+    - public
+    - it
+    - remote
+
+- name: Remote errant bashrc
+  file:
+    path: "/home/{{ item }}/bashrc"
+    state: absent
+  with_items:
+    - public
+    - it
+    - remote
+
+
+
+- name: Wallpaper Public
+  copy:
+    src: files/wallpaper/wallpaper.jpg
+    dest: /usr/share/backgrounds/publicClassroom.jpg
+    mode: 0644
+
+- name: Autologin Public Create Directory
+  file:
+    path: "/etc/lightdm/lightdm.conf.d/"
+    state: directory
+    mode: 0755
+
+- name: Autologin Public User file
+  copy:
+    src: "files/autologinpublic.conf"
+    dest: "/etc/lightdm/lightdm.conf.d/"
+    mode: 0755
+
+- name: Copy update script and make it executable
+  copy: src=files/autoupdate.sh dest=/etc/cron.daily owner=root group=root mode=755 backup=yes
+#- name: Give the user access to their .bashrc
+#  file:
+#    path: /home/"{{ item }}"/.bashrc
+#    owner: "{{ item }}"
+#    group: "{{ item }}"
+#    mode: 0644
+#  with_items:
+#    - public
+#    - it
+#    - remote

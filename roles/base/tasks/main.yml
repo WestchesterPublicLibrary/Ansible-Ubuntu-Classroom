@@ -1,5 +1,8 @@
 ---
 
+- name: Include User Variables
+  include_vars: users.yml
+  
 #- name: Running OS specific Configurations and Commands
 #  include: "{{ baseCommands }}"
 #  with_items:

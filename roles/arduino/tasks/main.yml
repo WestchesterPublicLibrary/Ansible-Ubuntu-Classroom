@@ -17,7 +17,7 @@
 
 - name: Placing ArduBlockTool into IDE
   copy:
-    src: "files/ardublock-all.jar"
+    src: "files/arduino//ardublock-all.jar"
     dest: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
     mode: 0755
   with_items:
@@ -26,7 +26,7 @@
 
 - name: Placing Arduino Files into IDE
   copy:
-    src: "files/ardublock-all.jar"
+    src: "files/arduino/ardublock-all.jar"
     dest: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
     mode: 0755
   with_items:
@@ -34,6 +34,14 @@
   register: file_copied
 
 
+- name: Arduino Link on Desktop
+  copy:
+    src: "files/desktop/arduino.desktop"
+    dest: "/home/{{item}}/Desktop/"
+    mode: 0755
+  with_items:
+    - "{{arduino_users}}"
+  register: file_copied
 
 #- name: Placing Arduino Files into IDE
   # Synchronization without any --archive options enabled

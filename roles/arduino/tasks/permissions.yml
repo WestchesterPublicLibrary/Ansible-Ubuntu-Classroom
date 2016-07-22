@@ -1,4 +1,8 @@
 ---
+
+#r=4
+#w=2
+#x=1
 # Add user to the correct group
 # usermod -aG dialout public
 - name: Setup group permissions for arduino access
@@ -11,15 +15,16 @@
 
 # Add the user to the groups listed above
 - name: Add users to correct Groups
-  user: name={{item}} shell=/bin/bash groups=dialout,tty append=yes generate_ssh_key=yes ssh_key_file=.ssh/ansible
+  user: name={{item}} shell=/bin/bash groups=dialout,tty append=yes
   with_items:
     - "{{arduino_users}}"
 
-- name: Fix Sketchbook path
-  lineinfile: dest=/home/{{item}}/.arduino/preferences.txt regexp=^sketchbook.path= line=sketchbook.path=/home/{{item}}/arduino/
-  with_items:
-    - "{{arduino_users}}"
-  ignore_errors: True
+# Only needed for older versions of the IDE
+#- name: Fix Sketchbook path
+#  lineinfile: dest=/home/{{item}}/.arduino/preferences.txt regexp=^sketchbook.path= line=sketchbook.path=/home/{{item}}/arduino/
+#  with_items:
+#    - "{{arduino_users}}"
+#  ignore_errors: True
 
 - name: Fixing Permissions Files
   file: path=/home/{{item}}/arduino/tools/ArduBlockTool/tool/ardublock-all.jar owner={{item}} group={{item}} mode=0644

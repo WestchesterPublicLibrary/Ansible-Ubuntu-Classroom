@@ -25,3 +25,8 @@
       createhome: yes
       state: present
       groups: it,adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare,libvirtd
+
+  simple_users:
+    - it
+    - public
+    - remote

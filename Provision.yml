@@ -30,14 +30,7 @@
     - vcabourdin.chrome
   #  - mglaman.atom
     - mjanser.powerline
-<<<<<<< HEAD
-<<<<<<< 064716b68e01f2bee66d7267e17d47fde186ba71
-=======
-=======
->>>>>>> c701216141bf810ecb69cf08246ba3acb11b0236
-
   #    - reboot
->>>>>>> Auto update of the machines
 
   vars_files:
     - vars/vault.yml
@@ -50,6 +43,10 @@
   post_tasks:
     - name: Give Public back their home
       file: path=/home/public/ owner=public group=public mode=0755
-    - name: Reboot Computers
-      command: "/sbin/shutdown -r now"
+
+  #  - name: Reboot Computers
+  #    command: /sbin/shutdown -r +1
+  #    async: 0
+  #    poll: 0
+  #    ignore_errors: true
 # Modules from https://github.com/JBKahn/provisioning-local.git

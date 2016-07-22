@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+#
+#  pre_tasks:
+#    - name: Install Keyfile to allow for easier management
+#      authorized_key:
+#        user: it
+#        key: "{{ lookup('file', '/home/joe/.ssh/remote.pub') }}"
+#        path: '/etc/ssh/authorized_keys/it'
+#        manage_dir: no
+#
+#    - name: Update apt cache if needed.
+#      apt: update_cache=yes cache_valid_time=3600
+#      when: ansible_os_family == "Debian"
+#
+#    - name: Update System
+#      apt: upgrade=dist
+#      when: ansible_os_family == "Debian"
+
+    # This is for Ansible 2.1
+    # - name: Cleaning up System
+    #  apt: autoremove=true
+    #  when: (ansible_version.major == 2) and (ansible_version.minor >=1) and (ansible_os_family == "Debian")
+
+  roles:
+    - minecraftStart
+
+  vars_files:
+    - vars/vault.yml
+
+  post_tasks:
+    - name: Give Public back their home
+      file: path=/home/public/ owner=public group=public mode=0755
+
+# Modules from https://github.com/JBKahn/provisioning-local.git
