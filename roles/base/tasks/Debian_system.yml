@@ -1,0 +1,6 @@
+---
+#- name: Create simlink for daily cronjob
+#  file: src=/usr/sbin/cron-apt dest=/etc/cron.daily/ state=link
+
+- name: Copy update script and make it executable
+  copy: src=files/autoupdate.sh dest=/etc/cron.daily owner=root group=root mode=755 backup=yes
