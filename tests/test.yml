@@ -2,12 +2,12 @@
 - hosts: all
   become: true
   pre_tasks:
-    - name: Install Keyfile to allow for easier management
-      authorized_key:
-        user: it
-        key: "{{ lookup('file', '/home/joe/.ssh/remote.pub') }}"
-        path: '/etc/ssh/authorized_keys/it'
-        manage_dir: no
+#    - name: Install Keyfile to allow for easier management
+#      authorized_key:
+#        user: it
+#        key: "{{ lookup('file', '/home/joe/.ssh/remote.pub') }}"
+#        path: '/etc/ssh/authorized_keys/it'
+#        manage_dir: no
 
     - name: Update apt cache if needed.
       apt: update_cache=yes cache_valid_time=3600
@@ -27,17 +27,10 @@
 #    - developer
     - arduino
     - minecraft
-    - vcabourdin.chrome
-  #  - mglaman.atom
-    - mjanser.powerline
-  #    - reboot
 
   vars_files:
     - vars/vault.yml
     - vars/firewall.yml
-    - vars/powerline.yml
-    - vars/atom.yml
-    - vars/syncthing.yml
 
 
   post_tasks:

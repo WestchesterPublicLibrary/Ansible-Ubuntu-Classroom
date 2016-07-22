@@ -17,6 +17,11 @@ env:
     init: /sbin/init
     run_opts: ""
     playbook: test.yml
+  - distribution: ubuntu
+    version: 16.04
+    init: /usr/lib/systemd/systemd
+    run_opts: ""
+    playbook: test.yml
   # - distribution: ubuntu
   #   version: 12.04
   #   init: /sbin/init
