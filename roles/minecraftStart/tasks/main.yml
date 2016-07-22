@@ -43,4 +43,4 @@
   become: yes
   become_user: public
   #script: files/startMinecraft.sh
-  command: screen -S test -d -m /opt/minecraft/startMinecraft.sh
+  command: /opt/minecraft/startMinecraft.sh
