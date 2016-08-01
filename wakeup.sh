@@ -2,7 +2,7 @@
 
 # This is using the awake python script
 # https://github.com/cyraxjoe/awake
-# pip install awakepip install awake
+# pip install awake
 
 scriptLOC="/home/joe/Documents/src/ansible/classroom"
 
