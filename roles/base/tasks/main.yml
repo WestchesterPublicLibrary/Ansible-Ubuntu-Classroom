@@ -2,7 +2,7 @@
 
 - name: Include User Variables
   include_vars: users.yml
-  
+
 #- name: Running OS specific Configurations and Commands
 #  include: "{{ baseCommands }}"
 #  with_items:
@@ -16,6 +16,7 @@
   with_items:
   - "all_system.yml"
   - "all_packages.yml"
+  - "font.yml"
   - "all_gconf.yml"
   loop_control:
     loop_var: genericCommands

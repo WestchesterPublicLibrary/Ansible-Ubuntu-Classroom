@@ -3,4 +3,14 @@
 - include: firewall.yml
 
 - name: Classroom Setup
-  
+
+
+
+#
+#
+#
+#  dconf read /com/canonical/unity/launcher/favorites
+# ['application://ubiquity.desktop', 'application://org.gnome.Nautilus.desktop', 'application://firefox.desktop', 'application://libreoffice-writer.desktop', 'application://libreoffice-calc.desktop', 'application://libreoffice-impress.desktop', 'application://org.gnome.Software.desktop', 'application://ubuntu-amazon-default.desktop', 'application://unity-control-center.desktop', 'unity://running-apps', 'unity://expo-icon', 'unity://devices']
+
+#
+#

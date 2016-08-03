@@ -4,6 +4,18 @@
 - name: Include User Variables
   include_vars: users.yml
 
+# @clean up
+#- name: remove provision temp directory
+#  file:
+#    path: "/opt/provision/"
+#    state: absent
+
+- name: Make provision temp directory
+  file:
+    path: "/opt/provision/"
+    state: directory
+    mode: 0755
+    recurse: yes
 
 - name: Create groups before users
   group:
@@ -160,3 +172,11 @@
 #    - public
 #    - it
 #    - remote
+
+
+#install repositories
+- name: Add repositories for Ubuntu Make
+  apt_repository: repo='ppa:ubuntu-desktop/ubuntu-make' state=present
+
+- name: Add repositories for tor browser
+  apt_repository: repo='ppa:webupd8team/tor-browser' state=present
