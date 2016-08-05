@@ -4,6 +4,18 @@
 - name: Include User Variables
   include_vars: users.yml
 
+# @clean up
+#- name: remove provision temp directory
+#  file:
+#    path: "/opt/provision/"
+#    state: absent
+
+- name: Make provision temp directory
+  file:
+    path: "/opt/provision/"
+    state: directory
+    mode: 0755
+    recurse: yes
 
 - name: Create groups before users
   group:
@@ -68,6 +80,7 @@
   with_items:
     - "{{ simple_users }}"
 
+
 - name: Rem errant bashrc
   file:
     path: "/home/{{ item }}/bashrc"
@@ -123,12 +136,12 @@
 
 
 
-  # Example action to enable service httpd and ensure it is not masked
-  - name: Enable wallpaper changing service
-    systemd:
-      name: gnome-background-change.timer
-      enabled: yes
-      state: started
+# Example action to enable service httpd and ensure it is not masked
+- name: Enable wallpaper changing service
+  systemd:
+    name: gnome-background-change.timer
+    enabled: yes
+    state: started
 
 
 - name: Copy Wallpapers
@@ -151,6 +164,78 @@
     src: "files/autologinpublic.conf"
     dest: "/etc/lightdm/lightdm.conf.d/"
     mode: 0755
-
 - name: Copy update script and make it executable
   copy: src=files/autoupdate.sh dest=/etc/cron.daily owner=root group=root mode=755 backup=yes
+# Xscreensaver
+#    __  __     ____        ____     ____     U _____ u U _____ u   _   _       ____         _       __     __   U _____ u    ____
+#    \ \/"/    / __"| u  U /"___| U |  _"\ u  \| ___"|/ \| ___"|/  | \ |"|     / __"| u  U  /"\  u   \ \   /"/u  \| ___"|/ U |  _"\ u
+#    /\  /\   <\___ \/   \| | u    \| |_) |/   |  _|"    |  _|"   <|  \| |>   <\___ \/    \/ _ \/     \ \ / //    |  _|"    \| |_) |/
+#   U /  \ u   u___) |    | |/__    |  _ <     | |___    | |___   U| |\  |u    u___) |    / ___ \     /\ V /_,-.  | |___     |  _ <
+#    /_/\_\    |____/>>    \____|   |_| \_\    |_____|   |_____|   |_| \_|     |____/>>  /_/   \_\   U  \_/-(_/   |_____|    |_| \_\
+#  ,-,>> \\_    )(  (__)  _// \\    //   \\_   <<   >>   <<   >>   ||   \\,-.   )(  (__)  \\    >>     //         <<   >>    //   \\_
+#   \_)  (__)  (__)      (__)(__)  (__)  (__) (__) (__) (__) (__)  (_")  (_/   (__)      (__)  (__)   (__)       (__) (__)  (__)  (__)
+
+- name: Make systemD Folder default.target.wants(1/2)
+  file:
+    path: "/home/{{ item }}/.config/systemd/user/default.target.wants/"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0700
+    recurse: yes
+  with_items:
+    - "{{simple_users}}"
+
+- name: Make systemD Folder Fix Permissions(2/2)
+  file:
+    path: "/home/{{ item }}/.config/systemd/"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0700
+    recurse: yes
+  with_items:
+    - "{{simple_users}}"
+
+- name: Xscreensaver Service
+  copy:
+    src: files/xscreensaver.service
+    dest: "/home/{{ item }}/.config/systemd/user/"
+    mode: 0700
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    backup: yes
+  with_items:
+    - "{{simple_users}}"
+
+- name: Manually enable Xscreensaver for all users
+  file:
+    dest: "/home/{{ item }}/.config/systemd/user/default.target.wants/xscreensaver.service"
+    src: "/home/{{ item }}/.config/systemd/user/xscreensaver.service"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    state: link
+  with_items:
+    - "{{simple_users}}"
+
+
+
+#
+#- name: Give the user access to their .bashrc
+#  file:
+#    path: /home/"{{ item }}"/.bashrc
+#    owner: "{{ item }}"
+#    group: "{{ item }}"
+#    mode: 0644
+#  with_items:
+#    - public
+#    - it
+#    - remote
+
+
+#install repositories
+- name: Add repositories for Ubuntu Make
+  apt_repository: repo='ppa:ubuntu-desktop/ubuntu-make' state=present
+
+- name: Add repositories for tor browser
+  apt_repository: repo='ppa:webupd8team/tor-browser' state=present
