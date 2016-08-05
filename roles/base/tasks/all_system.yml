@@ -89,37 +89,6 @@
     - "{{ simple_users }}"
 
 
-- name: Setup wallpaper Rotation Service systemd folder
-  file:
-    path: "/home/{{ item }}/.conf/systemd/user"
-    state: directory
-  with_items:
-    - "{{ simple_users }}"
-
-
-
-
-- name: systemd files (1/2)
-  copy:
-    src: 'files/services/gnome-background-change.service'
-    dest: "/home/{{ item }}/.conf/systemd/user"
-    mode: 0644
-    group: "{{ item }}"
-    owner: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
-
-
-- name: systemd files (2/2)
-  copy:
-    src: 'files/services/gnome-background-change.timer'
-    dest: "/home/{{ item }}/.conf/systemd/user"
-    mode: 0644
-    group: "{{ item }}"
-    owner: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
-
 - name: Create Directory for wallpapers
   file:
     path: "/opt/provision/wallpaper/"
@@ -133,15 +102,6 @@
     mode: 0755
   with_items:
     - "{{ simple_users }}"
-
-
-
-# Example action to enable service httpd and ensure it is not masked
-- name: Enable wallpaper changing service
-  systemd:
-    name: gnome-background-change.timer
-    enabled: yes
-    state: started
 
 
 - name: Copy Wallpapers
@@ -166,14 +126,25 @@
     mode: 0755
 - name: Copy update script and make it executable
   copy: src=files/autoupdate.sh dest=/etc/cron.daily owner=root group=root mode=755 backup=yes
-# Xscreensaver
-#    __  __     ____        ____     ____     U _____ u U _____ u   _   _       ____         _       __     __   U _____ u    ____
-#    \ \/"/    / __"| u  U /"___| U |  _"\ u  \| ___"|/ \| ___"|/  | \ |"|     / __"| u  U  /"\  u   \ \   /"/u  \| ___"|/ U |  _"\ u
-#    /\  /\   <\___ \/   \| | u    \| |_) |/   |  _|"    |  _|"   <|  \| |>   <\___ \/    \/ _ \/     \ \ / //    |  _|"    \| |_) |/
-#   U /  \ u   u___) |    | |/__    |  _ <     | |___    | |___   U| |\  |u    u___) |    / ___ \     /\ V /_,-.  | |___     |  _ <
-#    /_/\_\    |____/>>    \____|   |_| \_\    |_____|   |_____|   |_| \_|     |____/>>  /_/   \_\   U  \_/-(_/   |_____|    |_| \_\
-#  ,-,>> \\_    )(  (__)  _// \\    //   \\_   <<   >>   <<   >>   ||   \\,-.   )(  (__)  \\    >>     //         <<   >>    //   \\_
-#   \_)  (__)  (__)      (__)(__)  (__)  (__) (__) (__) (__) (__)  (_")  (_/   (__)      (__)  (__)   (__)       (__) (__)  (__)  (__)
+
+
+
+
+
+
+
+
+# systemD
+#   _______           _______ _________ _______  _______  ______
+#  (  ____ \|\     /|(  ____ \\__   __/(  ____ \(       )(  __  \
+#  | (    \/( \   / )| (    \/   ) (   | (    \/| () () || (  \  )
+#  | (_____  \ (_) / | (_____    | |   | (__    | || || || |   ) |
+#  (_____  )  \   /  (_____  )   | |   |  __)   | |(_)| || |   | |
+#        ) |   ) (         ) |   | |   | (      | |   | || |   ) |
+#  /\____) |   | |   /\____) |   | |   | (____/\| )   ( || (__/  )
+#  \_______)   \_/   \_______)   )_(   (_______/|/     \|(______/
+#
+
 
 - name: Make systemD Folder default.target.wants(1/2)
   file:
@@ -184,7 +155,7 @@
     mode: 0700
     recurse: yes
   with_items:
-    - "{{simple_users}}"
+    - "{{ simple_users }}"
 
 - name: Make systemD Folder Fix Permissions(2/2)
   file:
@@ -195,18 +166,73 @@
     mode: 0700
     recurse: yes
   with_items:
-    - "{{simple_users}}"
+    - "{{ simple_users }}"
 
+
+# Wallpaper
+#            _______  _        _        _______  _______  _______  _______  _______
+#  |\     /|(  ___  )( \      ( \      (  ____ )(  ___  )(  ____ )(  ____ \(  ____ )
+#  | )   ( || (   ) || (      | (      | (    )|| (   ) || (    )|| (    \/| (    )|
+#  | | _ | || (___) || |      | |      | (____)|| (___) || (____)|| (__    | (____)|
+#  | |( )| ||  ___  || |      | |      |  _____)|  ___  ||  _____)|  __)   |     __)
+#  | || || || (   ) || |      | |      | (      | (   ) || (      | (      | (\ (
+#  | () () || )   ( || (____/\| (____/\| )      | )   ( || )      | (____/\| ) \ \__
+#  (_______)|/     \|(_______/(_______/|/       |/     \||/       (_______/|/   \__/
+#
+- name: Copying Wallpaper systemd files (1/2)
+  copy:
+    src: 'files/services/gnome-background-change.service'
+    dest: "/home/{{ item }}/.config/systemd/user"
+    mode: 0700
+    backup: yes
+    group: "{{ item }}"
+    owner: "{{ item }}"
+  with_items:
+    - "{{ simple_users }}"
+
+
+- name: Copying Wallpaper systemd files (2/2)
+  copy:
+    src: 'files/services/gnome-background-change.timer'
+    dest: "/home/{{ item }}/.config/systemd/user"
+    mode: 0700
+    backup: yes
+    group: "{{ item }}"
+    owner: "{{ item }}"
+  with_items:
+    - "{{ simple_users }}"
+
+
+- name: Enable wallpaper changing service
+  systemd:
+    name: "gnome-background-change.timer"
+    enabled: yes
+    state: started
+  become: true
+  become_user: "{{ item }}"
+  with_items:
+    - "{{ simple_users }}"
+
+# Xscreensaver
+#            _______  _______  _______  _______  _______  _        _______  _______           _______  _______
+#  |\     /|(  ____ \(  ____ \(  ____ )(  ____ \(  ____ \( (    /|(  ____ \(  ___  )|\     /|(  ____ \(  ____ )
+#  ( \   / )| (    \/| (    \/| (    )|| (    \/| (    \/|  \  ( || (    \/| (   ) || )   ( || (    \/| (    )|
+#   \ (_) / | (_____ | |      | (____)|| (__    | (__    |   \ | || (_____ | (___) || |   | || (__    | (____)|
+#    ) _ (  (_____  )| |      |     __)|  __)   |  __)   | (\ \) |(_____  )|  ___  |( (   ) )|  __)   |     __)
+#   / ( ) \       ) || |      | (\ (   | (      | (      | | \   |      ) || (   ) | \ \_/ / | (      | (\ (
+#  ( /   \ )/\____) || (____/\| ) \ \__| (____/\| (____/\| )  \  |/\____) || )   ( |  \   /  | (____/\| ) \ \__
+#  |/     \|\_______)(_______/|/   \__/(_______/(_______/|/    )_)\_______)|/     \|   \_/   (_______/|/   \__/
+#
 - name: Xscreensaver Service
   copy:
-    src: files/xscreensaver.service
+    src: files/services/xscreensaver.service
     dest: "/home/{{ item }}/.config/systemd/user/"
     mode: 0700
     owner: "{{ item }}"
     group: "{{ item }}"
     backup: yes
   with_items:
-    - "{{simple_users}}"
+    - "{{ simple_users }}"
 
 - name: Manually enable Xscreensaver for all users
   file:
@@ -216,21 +242,7 @@
     group: "{{ item }}"
     state: link
   with_items:
-    - "{{simple_users}}"
-
-
-
-#
-#- name: Give the user access to their .bashrc
-#  file:
-#    path: /home/"{{ item }}"/.bashrc
-#    owner: "{{ item }}"
-#    group: "{{ item }}"
-#    mode: 0644
-#  with_items:
-#    - public
-#    - it
-#    - remote
+    - "{{ simple_users }}"
 
 
 #install repositories
