@@ -10,9 +10,16 @@
 #    path: "/opt/provision/"
 #    state: absent
 
-- name: Make provision temp directory
+- name: Make provision directory
   file:
     path: "/opt/provision/"
+    state: directory
+    mode: 0755
+    recurse: yes
+
+- name: Make provision directory
+  file:
+    path: "/opt/provision/bin/"
     state: directory
     mode: 0755
     recurse: yes
@@ -112,6 +119,12 @@
   with_items:
     - "{{ simple_users }}"
 
+- name: Copy Wallpapers Scripts
+  copy:
+    src: "files/scripts/rotate_bg.sh"
+    dest: "/opt/provision/bin/"
+    mode: 0755
+
 
 - name: Autologin Public Create Directory
   file:
@@ -146,7 +159,7 @@
 #
 
 
-- name: Make systemD Folder default.target.wants(1/2)
+- name: Make systemD Folder default.target.wants(1/3)
   file:
     path: "/home/{{ item }}/.config/systemd/user/default.target.wants/"
     state: directory
@@ -157,7 +170,18 @@
   with_items:
     - "{{ simple_users }}"
 
-- name: Make systemD Folder Fix Permissions(2/2)
+- name: Make systemD Folder gnome-background-change.service.wants(2/3)
+  file:
+    path: "/home/{{ item }}/.config/systemd/user/gnome-background-change.service.wants/"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0700
+    recurse: yes
+  with_items:
+    - "{{ simple_users }}"
+
+- name: Make systemD Folder Fix Permissions(3/3)
   file:
     path: "/home/{{ item }}/.config/systemd/"
     state: directory
@@ -202,16 +226,30 @@
   with_items:
     - "{{ simple_users }}"
 
+#Created symlink from /home/public/.config/systemd/user/basic.target.wants/gnome-background-change.service to /home/public/.config/systemd/user/gnome-background-change.service.
 
-- name: Enable wallpaper changing service
-  systemd:
-    name: "gnome-background-change.timer"
-    enabled: yes
-    state: started
-  become: true
-  become_user: "{{ item }}"
+#Created symlink from /home/public/.config/systemd/user/gnome-background-change.service.wants/gnome-background-change.timer to /home/public/.config/systemd/user/gnome-background-change.timer.
+
+
+- name: Manually enable Wallpaper Changer for all Users
+  file:
+    dest: "/home/{{ item }}/.config/systemd/user/gnome-background-change.service.wants/gnome-background-change.timer"
+    src: "/home/{{ item }}/.config/systemd/user/gnome-background-change.timer"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    state: link
   with_items:
     - "{{ simple_users }}"
+
+#- name: Enable wallpaper changing service
+#  systemd:
+#    name: "gnome-background-change.timer"
+#    enabled: yes
+#    state: started
+#  become: true
+#  become_user: "{{ item }}"
+#  with_items:
+#    - "{{ simple_users }}"
 
 # Xscreensaver
 #            _______  _______  _______  _______  _______  _        _______  _______           _______  _______
@@ -243,6 +281,8 @@
     state: link
   with_items:
     - "{{ simple_users }}"
+
+
 
 
 #install repositories
