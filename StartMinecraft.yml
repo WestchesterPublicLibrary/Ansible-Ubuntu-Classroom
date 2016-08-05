@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: classroom
   become: true
 #
 #  pre_tasks:

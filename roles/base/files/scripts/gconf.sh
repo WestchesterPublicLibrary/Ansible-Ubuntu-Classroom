@@ -18,4 +18,9 @@ gconftool-2 --type integer --set /org/gnome/desktop/session/idle-delay 300
 gconftool-2 --type bool --set /org/gnome/desktop/screensaver/idle-activation-enabled True
 
 ### Adjust Wallpaper Settings
-gconftool-2 --type string --set /org/gnome/desktop/background/picture-uri "file:///usr/share/backgrounds/publicClassroom.jpg"
+#gconftool-2 --type string --set /org/gnome/desktop/background/picture-uri "file:///usr/share/backgrounds/publicClassroom.jpg"
+
+
+#Trying it with gsettings
+gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/publicClassroom.jpg
+gsettings set org.gnome.desktop.screensaver lock-delay 0
