@@ -2,7 +2,7 @@
 Description=Rotate GNOME wallpaper timer
 
 [Timer]
-OnCalendar=1 m
+OnCalendar=hourly
 Persistent=true
 Unit=gnome-background-change.service
 

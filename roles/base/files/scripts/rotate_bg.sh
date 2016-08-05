@@ -6,6 +6,6 @@
 # https://major.io/2015/02/11/rotate-gnome-3s-wallpaper-systemd-user-units-timers/
 #
 
-walls_dir=/opt/provision/wallpaper/$HOME
+walls_dir=/opt/provision/wallpaper/$USER
 selection=$(find $walls_dir -type f -name "*.jpg" -o -name "*.png" | shuf -n1)
 gsettings set org.gnome.desktop.background picture-uri "file://$selection"

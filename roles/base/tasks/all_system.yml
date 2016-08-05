@@ -207,7 +207,7 @@
   copy:
     src: 'files/services/gnome-background-change.service'
     dest: "/home/{{ item }}/.config/systemd/user"
-    mode: 0700
+    mode: 0600
     backup: yes
     group: "{{ item }}"
     owner: "{{ item }}"
@@ -219,7 +219,7 @@
   copy:
     src: 'files/services/gnome-background-change.timer'
     dest: "/home/{{ item }}/.config/systemd/user"
-    mode: 0700
+    mode: 0600
     backup: yes
     group: "{{ item }}"
     owner: "{{ item }}"
@@ -231,10 +231,20 @@
 #Created symlink from /home/public/.config/systemd/user/gnome-background-change.service.wants/gnome-background-change.timer to /home/public/.config/systemd/user/gnome-background-change.timer.
 
 
-- name: Manually enable Wallpaper Changer for all Users
+- name: Manually enable Wallpaper Changer for all Users (1/2)
   file:
     dest: "/home/{{ item }}/.config/systemd/user/gnome-background-change.service.wants/gnome-background-change.timer"
     src: "/home/{{ item }}/.config/systemd/user/gnome-background-change.timer"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    state: link
+  with_items:
+    - "{{ simple_users }}"
+
+- name: Manually enable Wallpaper Changer for all Users (2/2)
+  file:
+    dest: "/home/{{ item }}/.config/systemd/user/default.target.wants/gnome-background-change.service"
+    src: "/home/{{ item }}/.config/systemd/user/gnome-background-change.service"
     owner: "{{ item }}"
     group: "{{ item }}"
     state: link
@@ -265,7 +275,7 @@
   copy:
     src: files/services/xscreensaver.service
     dest: "/home/{{ item }}/.config/systemd/user/"
-    mode: 0700
+    mode: 0600
     owner: "{{ item }}"
     group: "{{ item }}"
     backup: yes
