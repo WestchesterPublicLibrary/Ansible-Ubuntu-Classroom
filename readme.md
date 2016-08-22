@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/WestchesterPublicLibrary/Ansible-Ubuntu-Classroom.svg?branch=master)](https://travis-ci.org/WestchesterPublicLibrary/Ansible-Ubuntu-Classroom)
-
-[![StyleCI](https://styleci.io/repos/59023351/shield)](https://styleci.io/repos/59023351)
+[![Build Status](https://travis-ci.org/WestchesterPublicLibrary/Ansible-Ubuntu-Classroom.svg?branch=master)](https://travis-ci.org/WestchesterPublicLibrary/Ansible-Ubuntu-Classroom) [![StyleCI](https://styleci.io/repos/59023351/shield)](https://styleci.io/repos/59023351)
 
 
 
