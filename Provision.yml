@@ -58,7 +58,7 @@
     - vcabourdin.chrome
   #  - mglaman.atom
     - mjanser.powerline
-  #  - reboot
+    - reboot
 
   vars_files:
     - vars/vault.yml
