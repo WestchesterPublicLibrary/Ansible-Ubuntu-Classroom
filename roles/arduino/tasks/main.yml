@@ -52,18 +52,21 @@
   register: file_copied
 
 
-- name: Create Aruino Global Install
-  file: 
-    path: "/opt/{{arduino_version}}" 
-    state: directory 
-    mode: 0755
-
-
-
+#https://downloads.arduino.cc/arduino-1.6.11-linux64.tar.xz
+#https://downloads.arduino.cc/arduino-1.6.11-linux64.tar.xz
 - name: Installing Updated Arduino
   unarchive: 
     src: "files/{{arduino_version}}-linux64.tar.xz" 
-    dest: "/opt/{{arduino_version}}"  #change this in the vars file
+   # src: "https://downloads.arduino.cc/arduino-{{arduino_version}}-linux64.tar.xz" 
+    dest: /opt/  #change this in the vars file
+    remote_src: yes
+
+- name: Create Aruino Global Install
+  file: 
+    src: "/opt/{{arduino_version}}"
+    dest: "/opt/arduino" 
+    state: link 
+    mode: 0755
 
 
 - name: Fixing Permissions Directory
