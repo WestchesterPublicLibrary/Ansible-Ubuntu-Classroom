@@ -1,5 +1,4 @@
 ---
-
 # http://patorjk.com/software/taag/#p=display&c=bash&f=Epic&t=Wallpaper
 #   _______  _______  _______          _________ _______ _________ _______  _
 #  (  ____ )(  ____ )(  ___  )|\     /|\__   __/(  ____ \\__   __/(  ___  )( (    /|
@@ -68,9 +67,9 @@
     - vars/syncthing.yml
 
 
-  post_tasks:
-    - name: Give Public back their home
-      file: path=/home/public/ owner=public group=public mode=0755
+  #post_tasks:
+#    - name: Give Public back their home
+#      file: path=/home/public/ owner=public group=public mode=0755
 
   #  - name: Reboot Computers
   #    command: /sbin/shutdown -r +1

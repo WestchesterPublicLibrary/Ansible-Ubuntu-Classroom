@@ -101,6 +101,8 @@
     src: "files/xscreensaver"
     dest: "/home/{{ item }}/.xscreensaver"
     mode: 0644
+    owner: "{{ item }}"
+    group: "{{ item }}"
   with_items:
     - "{{ simple_users }}"
 
@@ -116,6 +118,8 @@
     path: "/opt/provision/wallpaper/{{ item }}/"
     state: directory
     mode: 0755
+    owner: "{{ item }}"
+    group: "{{ item }}"
   with_items:
     - "{{ simple_users }}"
 
@@ -125,6 +129,8 @@
     src: "files/wallpaper/{{ item }}.jpg"
     dest: "/opt/provision/wallpaper/{{ item }}/wallpaper1.jpg"
     mode: 0644
+    owner: "{{ item }}"
+    group: "{{ item }}"
   with_items:
     - "{{ simple_users }}"
 

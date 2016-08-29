@@ -27,7 +27,6 @@ gconftool-2 --type boolean --set /org/gnome/desktop/screensaver/idle-activation-
 
 
 #Trying it with gsettings
-gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/publicClassroom.jpg
 gsettings set org.gnome.desktop.screensaver lock-delay 0
 
 gconftool-2 --type string --set /org/gnome/desktop/interface/monospace-font-name 'Hack Regular 12'
