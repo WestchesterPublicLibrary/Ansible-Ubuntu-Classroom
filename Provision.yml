@@ -45,11 +45,6 @@
       apt: upgrade=dist
       when: ansible_os_family == "Debian"
 
-    # This is for Ansible 2.1
-    # - name: Cleaning up System
-    #  apt: autoremove=true
-    #  when: (ansible_version.major == 2) and (ansible_version.minor >=1) and (ansible_os_family == "Debian")
-
   roles:
     - base
     - arduino

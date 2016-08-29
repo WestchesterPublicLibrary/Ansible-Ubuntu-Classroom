@@ -2,3 +2,5 @@
 arduino_users:
   - it
   - public
+
+arduino_version: arduino-1.6.11

@@ -11,6 +11,8 @@
   file:
     path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
     state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
     mode: 0755
   with_items:
     - "{{arduino_users}}"
@@ -20,15 +22,19 @@
     src: "files/arduino//ardublock-all.jar"
     dest: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
     mode: 0755
+    owner: "{{ item }}"
+    group: "{{ item }}"
   with_items:
     - "{{arduino_users}}"
   register: file_copied
 
+
 - name: Placing Arduino Files into IDE
-  copy:
-    src: "files/arduino/ardublock-all.jar"
-    dest: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
-    mode: 0755
+  unarchive: 
+    src: "files/ArduBlockTool.tar.gz" 
+    dest: "/home/{{ item }}/arduino/tools/ArduBlockTool/"
+    owner: "{{ item }}"
+    group: "{{ item }}"
   with_items:
     - "{{arduino_users}}"
   register: file_copied
@@ -39,24 +45,35 @@
     src: "files/desktop/arduino.desktop"
     dest: "/home/{{item}}/Desktop/"
     mode: 0755
+    owner: "{{ item }}"
+    group: "{{ item }}"
   with_items:
     - "{{arduino_users}}"
   register: file_copied
 
-#- name: Placing Arduino Files into IDE
-  # Synchronization without any --archive options enabled
-#  synchronize:
-#    src: files/
-#    dest: /home/{{item}}/arduino/tools
-#    archive: no
-#    recursive: yes
-#  with_items:
-#    - "{{arduino_users}}"
-#  register: file_copied
+
+- name: Create Aruino Global Install
+  file: 
+    path: "/opt/{{arduino_version}}" 
+    state: directory 
+    mode: 0755
+
+
+
+- name: Installing Updated Arduino
+  unarchive: 
+    src: "files/{{arduino_version}}-linux64.tar.xz" 
+    dest: "/opt/{{arduino_version}}"  #change this in the vars file
 
 
 - name: Fixing Permissions Directory
-  file: path=/home/{{item}}/arduino/tools/ArduBlockTool/tool owner={{item}} group={{item}} recurse=yes
+  file: 
+    path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool" 
+    owner: "{{item}}" 
+    group: "{{item}}" 
+    recurse: yes
   with_items:
     - "{{arduino_users}}"
+
+
 - include: permissions.yml
