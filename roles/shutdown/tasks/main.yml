@@ -1,2 +1,7 @@
 ---
-- command: /sbin/shutdown -h now
+- name: Shutdown Machines
+  shell: sleep 2 && shutdown -H now "Ansible updates triggered"
+  async: 1
+  poll: 0
+  sudo: true
+  ignore_errors: true
