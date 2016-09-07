@@ -46,6 +46,7 @@
   - libx11-guitest-perl
   - gnome-boxes
   - screen
+  - git
 
 
 #  loop_control:
