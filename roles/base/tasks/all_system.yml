@@ -88,12 +88,12 @@
     - "{{ simple_users }}"
 
 
-- name: Rem errant bashrc
-  file:
-    path: "/home/{{ item }}/bashrc"
-    state: absent
-  with_items:
-    - "{{ simple_users }}"
+#- name: Rem errant bashrc
+#  file:
+#    path: "/home/{{ item }}/bashrc"
+#    state: absent
+#  with_items:
+#    - "{{ simple_users }}"
 
 
 - name: Copy xscreensaver Settings
