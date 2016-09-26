@@ -49,7 +49,7 @@
   - libx11-6
   - libx11-dev
   - libx11-guitest-perl
-  - gnome-boxes
+  #- gnome-boxes
   - screen
   - git
 

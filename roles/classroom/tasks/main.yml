@@ -5,7 +5,7 @@
 - name: Install Sync Script
   copy:
     src: "files/userlogin.sh"
-    dest: "/opt/sync.sh"
+    dest: "/opt/provision/bin/sync.sh"
     mode: 0755
   register: file_copied
 
@@ -15,21 +15,32 @@
   file:
     path: /mnt/profiles
     state: directory
-    mode: 0755
-    recurse: yes
-    ignore_errors: true
 
-- name: add a new string before the match
+# - name: remove the line '/opt/sync.sh'
+#   lineinfile: dest=/etc/rc.local 
+#     regexp='^/opt/sync.sh'
+#     state=absent
+
+
+- name: remove the line '/opt/provision/bin/sync.sh'
   lineinfile: dest=/etc/rc.local 
-    regexp='^exit'
-    insertbefore='^exit'
-    line='/opt/sync.sh'
+    regexp='^//opt/provision/bin/sync.sh'
+    state=absent
 
-- name: add a new string at the end of the file
-  lineinfile: dest=/test/test.conf 
-    regexp=''
-    insertafter=EOF
-    line='exit 0'
+# - name: add a new string before the match
+#   lineinfile: dest=/etc/rc.local 
+#      regexp='^exit 0'
+#      insertbefore='^exit 0'
+#      line='/opt/provision/bin/sync.sh'
+
+# - name: add a new string at the end of the file
+#   lineinfile: dest=/etc/rc.local 
+#     regexp=''
+#     insertafter=EOF
+#     line='exit 0'
+
+
+
 
 - name: Mount Profiles Read only
   mount:
