@@ -30,6 +30,9 @@
 - hosts: all
   become: true
   pre_tasks:
+#    - name: install requirements from ansible galaxy
+#      command: ansible-galaxy install -r requirements.yml --ignore-errors
+
     - name: Install Keyfile to allow for easier management
       authorized_key:
         user: it
@@ -50,19 +53,32 @@
     - arduino
     - minecraft
     - vcabourdin.chrome
-  #  - mglaman.atom
     - mjanser.powerline
-     - { role: hubisan.virtualbox }
+   # - { role: hubisan.virtualbox }
 
   vars_files:
     - vars/vault.yml
     - vars/firewall.yml
     - vars/powerline.yml
-    - vars/atom.yml
     - vars/syncthing.yml
 
 
-  #post_tasks:
+  post_tasks:
+    - name: Make Profiles directory
+      file:
+        path: /mnt/profiles
+        state: directory
+        mode: 0755
+        recurse: yes
+
+    - name: Mount Profiles Read only
+      mount:
+        name: /mnt/profiles
+        src: wpl-backup:/mnt/backups/storage/profiles
+        fstype: nfs
+        opts: ro,rsize=8192,wsize=8192,timeo=15
+        state: present
+
 #    - name: Give Public back their home
 #      file: path=/home/public/ owner=public group=public mode=0755
 

@@ -36,6 +36,7 @@
   - python-pip
   - variety
   - tor-browser
+  - nfs-common
 
 #Developer packages. These might end up being in their own groups
   - ubuntu-make
