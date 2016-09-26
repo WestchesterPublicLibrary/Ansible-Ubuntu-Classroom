@@ -52,6 +52,7 @@
     - vcabourdin.chrome
   #  - mglaman.atom
     - mjanser.powerline
+     - { role: hubisan.virtualbox }
 
   vars_files:
     - vars/vault.yml

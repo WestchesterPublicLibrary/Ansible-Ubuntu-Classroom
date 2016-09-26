@@ -1,5 +1,0 @@
-mjanser.powerline
-vcabourdin.chrome
-mglaman.atom
-hnakamur.atom-packages
-bennojoy.network_interface
