@@ -17,7 +17,7 @@
     state: directory
     mode: 0755
     recurse: yes
-    ignore_errors: yes
+    ignore_errors: true
 
 - name: add a new string before the match
   lineinfile: dest=/etc/rc.local 
