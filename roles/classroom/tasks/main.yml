@@ -2,7 +2,42 @@
 - include: groups.yml
 - include: firewall.yml
 
-- name: Classroom Setup
+- name: Install Sync Script
+  copy:
+    src: "files/userlogin.sh"
+    dest: "/opt/sync.sh"
+    mode: 0755
+  register: file_copied
+
+
+
+- name: Make Profiles directory
+  file:
+    path: /mnt/profiles
+    state: directory
+    mode: 0755
+    recurse: yes
+    ignore_errors: yes
+
+- name: add a new string before the match
+  lineinfile: dest=/etc/rc.local 
+    regexp='^exit'
+    insertbefore='^exit'
+    line='/opt/sync.sh'
+
+- name: add a new string at the end of the file
+  lineinfile: dest=/test/test.conf 
+    regexp=''
+    insertafter=EOF
+    line='exit 0'
+
+- name: Mount Profiles Read only
+  mount:
+    name: /mnt/profiles
+    src: wpl-backup:/mnt/backups/storage/profiles
+    fstype: nfs
+    opts: ro,rsize=8192,wsize=8192,timeo=15
+    state: present
 
 
 

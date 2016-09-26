@@ -1,4 +1,1 @@
 ---
-# Making sure that btsync group exsists
-- name: Ensure that the btsync group exsists
-  group: name=btsync state=present

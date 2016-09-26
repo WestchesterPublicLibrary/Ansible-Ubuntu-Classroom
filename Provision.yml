@@ -50,10 +50,12 @@
 
   roles:
     - base
+    - classroom
     - arduino
     - minecraft
     - vcabourdin.chrome
     - mjanser.powerline
+
    # - { role: hubisan.virtualbox }
 
   vars_files:
@@ -64,20 +66,28 @@
 
 
   post_tasks:
-    - name: Make Profiles directory
-      file:
-        path: /mnt/profiles
-        state: directory
-        mode: 0755
-        recurse: yes
+  #   - name: Make Profiles directory
+  #     file:
+  #       path: /mnt/profiles
+  #       state: directory
+  #       mode: 0755
+  #       recurse: yes
 
-    - name: Mount Profiles Read only
-      mount:
-        name: /mnt/profiles
-        src: wpl-backup:/mnt/backups/storage/profiles
-        fstype: nfs
-        opts: ro,rsize=8192,wsize=8192,timeo=15
-        state: present
+  # - name: add a new string before the match
+  #   lineinfile: dest=/etc/rc.local 
+  #     regexp='^exit'
+  #     insertbefore='^exit'
+  #     line='/opt/sync.sh'
+
+  #   - name: Mount Profiles Read only
+  #     mount:
+  #       name: /mnt/profiles
+  #       src: wpl-backup:/mnt/backups/storage/profiles
+  #       fstype: nfs
+  #       opts: ro,rsize=8192,wsize=8192,timeo=15
+  #       state: present
+
+
 
 #    - name: Give Public back their home
 #      file: path=/home/public/ owner=public group=public mode=0755
