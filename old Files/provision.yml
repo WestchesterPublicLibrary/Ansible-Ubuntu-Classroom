@@ -1,5 +1,0 @@
----
-- hosts: itClassroom
-  become: true
-  roles:
-    - user

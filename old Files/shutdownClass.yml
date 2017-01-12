@@ -1,8 +1,0 @@
----
-- hosts: itClassroom
-  become: true
-  roles:
-    - shutdown
-  # tasks:
-    # Example from Ansible Playbooks.
-  # - command: /sbin/shutdown -h now

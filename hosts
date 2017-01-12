@@ -1,12 +1,16 @@
 [itClassroom]
 Classroom[01:18].library.wpl.lib.in.us
 #Classroom01
+#classroom01
+#classroom09
+#classroom12
+
 #192.168.80.[01:100]
 
 
 #Classroomtesting
 
-[testing]
+#[testing]
 #Classroomtesting
 
 [itClassroom:vars]
