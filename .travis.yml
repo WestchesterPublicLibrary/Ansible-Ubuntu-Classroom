@@ -4,8 +4,6 @@ dist: trusty
 language: python
 python:
   - "2.7"
-services:
-  - docker
 env:
   global:
     - PATH="/usr/bin:$PATH"
@@ -14,7 +12,6 @@ before_install:
     # Ansible doesn't play well with virtualenv
   - deactivate
   - sudo apt-get update -qq
-  - sudo apt-get install -y -o Dpkg::Options::="--force-confnew" docker-engine
 
 install:
   - sudo pip install docker-py
@@ -39,7 +36,7 @@ script:
   # Run the role/playbook with ansible-playbook.
   - >
     ansible-playbook -i tests/inventory tests/main.yml
-    --connection=local --sudo  
+    --connection=local --sudo
 
   # Run the role/playbook again, checking to make sure it's idempotent.
   - >
@@ -47,7 +44,7 @@ script:
     --connection=local --sudo
     | grep -q 'changed=[0].*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)  
+    || (echo 'Idempotence test: fail' && exit 1)
 
 notifications:
   # notify ansible galaxy of test results
