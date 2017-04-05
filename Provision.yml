@@ -55,20 +55,19 @@
     - minecraft
     - vcabourdin.chrome
     - mjanser.powerline
-    - reboot
+    - mongrelion.docker
+    # - reboot
 
   vars_files:
     - vars/vault.yml
     - vars/firewall.yml
     - vars/powerline.yml
-    - vars/syncthing.yml
-
 
   # post_tasks:
   #   - name: Give Public back their home
-  #     file: path=/home/public/ 
-  #     owner: public 
-  #     group: public 
+  #     file: path=/home/public/
+  #     owner: public
+  #     group: public
   #     mode: 0755
   #     recurse: yes
 

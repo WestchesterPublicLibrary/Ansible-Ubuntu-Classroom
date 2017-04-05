@@ -3,14 +3,6 @@
 - name: Include User Variables
   include_vars: users.yml
 
-#- name: Running OS specific Configurations and Commands
-#  include: "{{ baseCommands }}"
-#  with_items:
-  # - "{{ ansible_os_family }}_packages.yml"
-  # - "{{ ansible_os_family }}_system.yml"
-#  loop_control:
-#    loop_var: baseCommands
-
 - name: Running generic Configurations and Commands
   include: "{{ genericCommands }}"
   with_items:

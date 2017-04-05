@@ -9,6 +9,7 @@
     - pidgin
     - cron-apt
     - gnome-screensaver
+    - variety
 
 # Install Files
 - name: Install needed packages
@@ -34,7 +35,6 @@
   - firefox
   - unity-tweak-tool
   - python-pip
-  - variety
   - tor-browser
   - nfs-common
   - virtualbox
