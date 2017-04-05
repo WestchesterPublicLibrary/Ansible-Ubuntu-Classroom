@@ -30,8 +30,8 @@
 
 
 - name: Placing Arduino Files into IDE
-  unarchive: 
-    src: "files/ArduBlockTool.tar.gz" 
+  unarchive:
+    src: "files/ArduBlockTool.tar.gz"
     dest: "/home/{{ item }}/arduino/tools/ArduBlockTool/"
     owner: "{{ item }}"
     group: "{{ item }}"
@@ -55,25 +55,25 @@
 #https://downloads.arduino.cc/arduino-1.6.11-linux64.tar.xz
 #https://downloads.arduino.cc/arduino-1.6.11-linux64.tar.xz
 - name: Installing Updated Arduino
-  unarchive: 
-    src: "files/{{arduino_version}}-linux64.tar.xz" 
-   # src: "https://downloads.arduino.cc/arduino-{{arduino_version}}-linux64.tar.xz" 
-    dest: /opt/  #change this in the vars file
-    remote_src: yes
+  unarchive:
+    src: "files/{{arduino_version}}-linux64.tar.xz"
+   # src: "https://downloads.arduino.cc/arduino-{{arduino_version}}-linux64.tar.xz"
+    dest: /opt/
+    # remote_src: yes
 
 - name: Create Aruino Global Install
-  file: 
+  file:
     src: "/opt/{{arduino_version}}"
-    dest: "/opt/arduino" 
-    state: link 
+    dest: "/opt/arduino"
+    state: link
     mode: 0755
 
 
 - name: Fixing Permissions Directory
-  file: 
-    path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool" 
-    owner: "{{item}}" 
-    group: "{{item}}" 
+  file:
+    path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool"
+    owner: "{{item}}"
+    group: "{{item}}"
     recurse: yes
   with_items:
     - "{{arduino_users}}"

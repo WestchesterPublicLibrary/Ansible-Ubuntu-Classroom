@@ -1,17 +1,19 @@
 ---
 
-- name: Git fonts
-  git:
-    repo: https://github.com/powerline/fonts.git
-    dest: /opt/provision/fonts
-    force: yes
-    update: yes
 
-- name: Install fonts
-  shell: "/opt/provision/fonts/install.sh"
-  args:
-    creates: "/home/{{ item }}/.local/share/fonts/Hack-Regular.ttf"
-  become: true
-  become_user: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
+# @TODO: work on this section. It is failing
+# - name: Git fonts
+#   git:
+#     repo: https://github.com/powerline/fonts.git
+#     dest: /opt/provision/fonts
+#     force: no
+#     update: yes
+
+# - name: Install fonts
+#   shell: "/opt/provision/fonts/install.sh"
+#   args:
+#     creates: "/home/{{ item }}/.local/share/fonts/Hack-Regular.ttf"
+#   become: true
+#   become_user: "{{ item }}"
+#   with_items:
+#     - "{{ simple_users }}"
