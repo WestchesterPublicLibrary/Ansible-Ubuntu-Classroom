@@ -11,5 +11,5 @@ Classroom[01:18].classroom.library.wpl.lib.in.us
 
 [itClassroom:vars]
 ansible_user=it
-ansible_ssh_private_key_file=/home/joe/.ssh/remote.pub
+Joeiansible_ssh_private_key_file=/home/joe/.ssh/remote.pub
 deploy_target=it

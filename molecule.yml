@@ -1,0 +1,12 @@
+---
+ansible:
+playbook: playbook.yml
+
+docker:
+  containers:
+    - name: classroom
+      ansible_groups:
+        - group1
+      image: ubuntu
+      image_version: latest
+      privileged: True

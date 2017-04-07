@@ -1,0 +1,47 @@
+---
+# tasks file for docker-syncthing
+
+- name: Install python-pip
+  apt:
+      name: python-pip
+      state: present
+- name: Install docker-py
+  pip:
+      name: docker-py
+
+- name: Create paths
+  file:
+    path: "/docker/containers/syncthing/{{ item }}"
+    state: directory
+    mode: 0775
+  with_items:
+    - data
+    - config
+
+# - name: Copy syncthing config file
+#   copy:
+#     src: syncthing.conf
+#     dest: /docker/containers/syncthing/syncthing.conf
+#     mode: 0644
+
+- name: Start syncthing container
+  docker_container:
+    name: syncthing
+    image: joeybaker/syncthing
+    state: started
+    restart_policy: unless-stopped
+    recreate: no
+    published_ports:
+      - "{{docker_ports}}"
+    volumes:
+      - "{{docker_volumes}}"
+    env:
+
+- name: Open Ports for influxdb
+  firewalld:
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - "{{ docker_ports }}"
+  notify: Restart firewalld

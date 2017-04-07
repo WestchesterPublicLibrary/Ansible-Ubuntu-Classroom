@@ -49,14 +49,6 @@
     createhome: yes
 #    groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd,sudo
 
-- name: Create Remote
-  user:
-    comment: "Remote"
-    state: present
-    name: remote
-    createhome: yes
-#    groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd,sudo
-
 - name: Deploy keys
   authorized_key:
     user: it
@@ -95,16 +87,16 @@
 #  with_items:
 #    - "{{ simple_users }}"
 
-
-- name: Copy xscreensaver Settings
-  copy:
-    src: "files/xscreensaver"
-    dest: "/home/{{ item }}/.xscreensaver"
-    mode: 0644
-    owner: "{{ item }}"
-    group: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
+#
+# - name: Copy xscreensaver Settings
+#   copy:
+#     src: "files/xscreensaver"
+#     dest: "/home/{{ item }}/.xscreensaver"
+#     mode: 0644
+#     owner: "{{ item }}"
+#     group: "{{ item }}"
+#   with_items:
+#     - "{{ simple_users }}"
 
 
 - name: Create Directory for wallpapers

@@ -1,0 +1,10 @@
+---
+# vars file for docker-syncthing
+docker_ports:
+    - 22000/tcp
+    - 8080/tcp
+    - 21025/udp
+
+docker_volumes:
+    - '/docker/containers/syncthing/data/sync:/srv/data'
+    - '/docker/containers/syncthing/config:/srv/config'

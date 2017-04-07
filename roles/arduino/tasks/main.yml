@@ -52,11 +52,6 @@
   register: file_copied
 
 
-#https://downloads.arduino.cc/arduino-1.6.11-linux64.tar.xz
-#https://downloads.arduino.cc/arduino-1.6.11-linux64.tar.xz
-#https://downloads.arduino.cc/arduino-1.8.2-linux64.tar.xz
-#https://downloads.arduino.cc/arduino-1.8.2-linux64.tar.xz
-#https://downloads.arduino.cc/arduino-arduino-1.8.2-linux64.tar.xz
 - name: Installing Updated Arduino
   unarchive:
     # src: "files/{{arduino_version}}-linux64.tar.xz"
