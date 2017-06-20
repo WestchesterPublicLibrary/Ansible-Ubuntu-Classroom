@@ -1,42 +1,11 @@
 ---
-# http://patorjk.com/software/taag/#p=display&c=bash&f=Epic&t=Wallpaper
-#   _______  _______  _______          _________ _______ _________ _______  _
-#  (  ____ )(  ____ )(  ___  )|\     /|\__   __/(  ____ \\__   __/(  ___  )( (    /|
-#  | (    )|| (    )|| (   ) || )   ( |   ) (   | (    \/   ) (   | (   ) ||  \  ( |
-#  | (____)|| (____)|| |   | || |   | |   | |   | (_____    | |   | |   | ||   \ | |
-#  |  _____)|     __)| |   | |( (   ) )   | |   (_____  )   | |   | |   | || (\ \) |
-#  | (      | (\ (   | |   | | \ \_/ /    | |         ) |   | |   | |   | || | \   |
-#  | )      | ) \ \__| (___) |  \   /  ___) (___/\____) |___) (___| (___) || )  \  |
-#  |/       |/   \__/(_______)   \_/   \_______/\_______)\_______/(_______)|/    )_)
-#
-#   _______  _        ______     _______  _______ _________          _______
-#  (  ___  )( (    /|(  __  \   (  ____ \(  ____ \\__   __/|\     /|(  ____ )
-#  | (   ) ||  \  ( || (  \  )  | (    \/| (    \/   ) (   | )   ( || (    )|
-#  | (___) ||   \ | || |   ) |  | (_____ | (__       | |   | |   | || (____)|
-#  |  ___  || (\ \) || |   | |  (_____  )|  __)      | |   | |   | ||  _____)
-#  | (   ) || | \   || |   ) |        ) || (         | |   | |   | || (
-#  | )   ( || )  \  || (__/  )  /\____) || (____/\   | |   | (___) || )
-#  |/     \||/    )_)(______/   \_______)(_______/   )_(   (_______)|/
-#
-#   _______  _        _______  _______  _______  _______  _______  _______  _______
-#  (  ____ \( \      (  ___  )(  ____ \(  ____ \(  ____ )(  ___  )(  ___  )(       )
-#  | (    \/| (      | (   ) || (    \/| (    \/| (    )|| (   ) || (   ) || () () |
-#  | |      | |      | (___) || (_____ | (_____ | (____)|| |   | || |   | || || || |
-#  | |      | |      |  ___  |(_____  )(_____  )|     __)| |   | || |   | || |(_)| |
-#  | |      | |      | (   ) |      ) |      ) || (\ (   | |   | || |   | || |   | |
-#  | (____/\| (____/\| )   ( |/\____) |/\____) || ) \ \__| (___) || (___) || )   ( |
-#  (_______/(_______/|/     \|\_______)\_______)|/   \__/(_______)(_______)|/     \|
-#
 - hosts: all
   become: true
   pre_tasks:
-#    - name: install requirements from ansible galaxy
-#      command: ansible-galaxy install -r requirements.yml --ignore-errors
-
     - name: Install Keyfile to allow for easier management
       authorized_key:
         user: it
-        key: "{{ lookup('file', '/home/joe/.ssh/remote.pub') }}"
+        key: "{{ lookup('file', '/home/joe/.ssh/ansible.pub') }}"
         path: '/etc/ssh/authorized_keys/it'
         manage_dir: no
 
@@ -47,33 +16,23 @@
     - name: Update System
       apt: upgrade=dist
       when: ansible_os_family == "Debian"
-
   roles:
     - base
     - classroom
     - arduino
     - minecraft
     - vcabourdin.chrome
-    - mjanser.powerline
     - mongrelion.docker
-    # - reboot
+    - docker-syncthing
 
   vars_files:
     - vars/vault.yml
     - vars/firewall.yml
-    - vars/powerline.yml
 
   # post_tasks:
-  #   - name: Give Public back their home
-  #     file: path=/home/public/
-  #     owner: public
-  #     group: public
-  #     mode: 0755
-  #     recurse: yes
-
-    # - name: Reboot Computers
-    #   command: /sbin/shutdown -r +1
-    #   async: 0
-    #   poll: 0
-    #   ignore_errors: true
+  #   - name: Reboot Computers
+  #     command: /sbin/shutdown -r +1
+  #     async: 0
+  #     poll: 0
+  #     ignore_errors: true
 # Modules from https://github.com/JBKahn/provisioning-local.git

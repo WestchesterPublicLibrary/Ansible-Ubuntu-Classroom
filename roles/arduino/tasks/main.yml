@@ -1,80 +1,81 @@
 ---
+- include:      permissions.yml
 
-- name: Install Arduino -_-
+- name:         Install Arduino -_-
   # Install Debian Specific files.
-  apt: state=present name={{item}}
+  apt:
+    state:      present
+    name:       "{{ item }}"
   with_items:
     - arduino
     - arduino-core
 
-- name: ArduBlockTool Creating Directory
+- name:         ArduBlockTool Creating Directory
   file:
-    path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
-    state: directory
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: 0755
+    path:       "/home/{{item}}/Arduino/tools/ArduBlockTool/tool/"
+    state:      directory
+    owner:      "{{ item }}"
+    group:      "{{ item }}"
+    mode:       0755
   with_items:
     - "{{arduino_users}}"
 
-- name: Placing ArduBlockTool into IDE
+- name:         Placing ArduBlockTool into IDE
   copy:
-    src: "files/arduino/ardublock-all.jar"
-    dest: "/home/{{item}}/arduino/tools/ArduBlockTool/tool/"
-    mode: 0755
-    owner: "{{ item }}"
-    group: "{{ item }}"
+    src:        "files/arduino/ardublock-all.jar"
+    dest:       "/home/{{item}}/Arduino/tools/ArduBlockTool/tool/"
+    mode:       0755
+    owner:      "{{ item }}"
+    group:      "{{ item }}"
   with_items:
     - "{{arduino_users}}"
-  register: file_copied
+  register:     file_copied
 
 
-- name: Placing Arduino Files into IDE
+- name:         Placing Arduino Files into IDE
   unarchive:
-    src: "files/ArduBlockTool.tar.gz"
-    dest: "/home/{{ item }}/arduino/tools/ArduBlockTool/"
-    owner: "{{ item }}"
-    group: "{{ item }}"
+    src:        "files/ArduBlockTool.tar.gz"
+    dest:       "/home/{{ item }}/Arduino/tools/ArduBlockTool/"
+    owner:      "{{ item }}"
+    group:      "{{ item }}"
   with_items:
     - "{{arduino_users}}"
-  register: file_copied
+  register:     file_copied
 
 
-- name: Arduino Link on Desktop
+- name:         Arduino Link on Desktop
   copy:
-    src: "files/desktop/arduino.desktop"
-    dest: "/home/{{item}}/Desktop/"
-    mode: 0755
-    owner: "{{ item }}"
-    group: "{{ item }}"
+    src:        "files/desktop/arduino.desktop"
+    dest:       "/home/{{item}}/Desktop/"
+    mode:       0755
+    owner:      "{{ item }}"
+    group:      "{{ item }}"
   with_items:
     - "{{arduino_users}}"
-  register: file_copied
+  register:     file_copied
 
 
-- name: Installing Updated Arduino
+- name:         Installing Updated Arduino
   unarchive:
-    # src: "files/{{arduino_version}}-linux64.tar.xz"
-    src: "https://downloads.arduino.cc/{{arduino_version}}-linux64.tar.xz"
-    dest: /opt/
+    # src:      "files/{{arduino_version}}-linux64.tar.xz"
+    src:        "https://downloads.arduino.cc/{{ arduino_version }}-linux64.tar.xz"
+    dest:       /opt/
     remote_src: yes
+    creates:   "{{ arduino_version }}"
 
-- name: Create Aruino Global Install
+- name:         Create Aruino Global Install
   file:
-    src: "/opt/{{arduino_version}}"
-    dest: "/opt/arduino"
-    state: link
-    mode: 0755
+    src:        "/opt/{{arduino_version}}"
+    dest:       "/opt/Arduino"
+    state:      link
+    mode:       0755
 
 
-- name: Fixing Permissions Directory
+- name:         Fixing Permissions Directory
   file:
-    path: "/home/{{item}}/arduino/tools/ArduBlockTool/tool"
-    owner: "{{item}}"
-    group: "{{item}}"
-    recurse: yes
+    path:       "/home/{{item}}/arduino/tools/ArduBlockTool/tool"
+    owner:      "{{item}}"
+    group:      "{{item}}"
+    recurse:    yes
   with_items:
     - "{{arduino_users}}"
-
-
-- include: permissions.yml

@@ -1,0 +1,6 @@
+- name:      pause_for_reboot
+  pause:     seconds=60
+  command:   /sbin/reboot
+  
+- name:      wait_reboot
+  wait_for:  host={{ inventory_hostname }} port=22 timeout={{ reboot_wait }}

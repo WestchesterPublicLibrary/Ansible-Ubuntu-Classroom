@@ -31,3 +31,5 @@ gsettings set org.gnome.desktop.screensaver lock-delay 0
 
 gconftool-2 --type string --set /org/gnome/desktop/interface/monospace-font-name 'Hack Regular 12'
 gconftool-2 --type string --set /org/gnome/nautilus/desktop/font 'Ubuntu 10'
+
+gsettings set com.canonical.Unity.Launcher favorites "['nautilus-home.desktop', 'chromium-browser.desktop', 'gnome-system-monitor.desktop', 'vlc.desktop']"

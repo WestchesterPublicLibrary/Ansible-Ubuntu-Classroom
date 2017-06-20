@@ -1,34 +1,34 @@
 ---
 # Run the equivalent of "apt-get update" as a separate step
-- name: Installing Required Files
-  apt: update_cache=yes name={{item}}
+- name:       Installing Required Files
+  apt:        update_cache=yes name={{item}}
   with_items:
     - default-jre
 
-- name: Creating Directory
+- name:       Creating Directory
   file:
-    path: "/opt/minecraft/"
-    state: directory
-    mode: 0755
+    path:     "/opt/minecraft/"
+    state:    directory
+    mode:     0755
 
-- name: Placing Icon on Desktop of Public User
+- name:       Placing Icon on Desktop of Public User
   copy:
-    src: "files/minecraft.desktop"
-    dest: "/home/public/Desktop/"
-    mode: 0755
-  register: file_copied
+    src:      "files/minecraft.desktop"
+    dest:     "/home/public/Desktop/"
+    mode:     0755
+  register:   file_copied
 
-- name: Copying Files into Computer (1/2)
+- name:       Copying Files into Computer (1/2)
   copy:
-    src: "files/Minecraft.jar"
-    dest: "/opt/minecraft/"
-    mode: 0755
-  register: file_copied
+    src:      "files/Minecraft.jar"
+    dest:     "/opt/minecraft/"
+    mode:     0755
+  register:   file_copied
 
 
-- name: Copying Files into Computer (2/2)
+- name:       Copying Files into Computer (2/2)
   copy:
-    src: "files/Sphax-PureBDcraftGrass.png"
-    dest: "/opt/minecraft/"
-    mode: 0755
-  register: file_copied
+    src:      "files/Sphax-PureBDcraftGrass.png"
+    dest:     "/opt/minecraft/"
+    mode:     0755
+  register:   file_copied

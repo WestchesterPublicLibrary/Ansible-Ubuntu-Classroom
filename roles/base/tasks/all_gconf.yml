@@ -1,17 +1,17 @@
 ---
-- name: Run Gconf scripts
-  script: files/scripts/gconf.sh
-  become: yes
+- name:        Run Gconf scripts
+  script:      files/scripts/gconf.sh
+  become:      yes
   become_user: "{{ item }}"
   with_items:
     - "{{simple_users}}"
 
-- name: Copy Xscreensaver file
+- name:        Copy Xscreensaver file
   copy:
-    src: files/xscreensaver
-    dest: "/home/{{ item }}/.xscreensaver"
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: 644
+    src:       files/xscreensaver
+    dest:      "/home/{{ item }}/.xscreensaver"
+    owner:     "{{ item }}"
+    group:     "{{ item }}"
+    mode:      644
   with_items:
     - "{{simple_users}}"

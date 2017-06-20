@@ -1,32 +1,20 @@
 ---
-  base_groups:
-    - public
-    - adm
-    - cdrom
-    - dip
-    - plugdev
-    - sambashare
-    - libvirtd
-    - public
-    - it
-    - sync
-
-
-  base_users:
-    - name: public
-      comment: "Default Public login account"
+base_users:
+    - name:       public
+      comment:    "Default Public login account"
       createhome: yes
-      state: present
-      password: "$6$7aUMFzunHBz6eN$YFpmYsvxK.hjtDHxf6cwY9Fe.ujGijvla04gxxKdVDwrrN6pOkKTh3isBsxcAU1MqoZ6Kk3rzJuLBwGtZDX1H."
-      groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd
-
-    - name: it
-      comment: "Default IT Administrative login account"
+      state:      present
+      password:   "{{vault_passwords.public}}"
+      groups:     public,adm,cdrom,dip,plugdev,sambashare,libvirtd
+    - name:       it
+      comment:    "Default IT Administrative login account"
       createhome: yes
-      state: present
-      groups: it,adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare,libvirtd
-
-  simple_users:
+      state:      present
+      password:   "{{vault_passwords.it}}"
+      groups:     it,adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare,libvirtd,docker
+simple_users:
     - it
     - public
-    - remote
+
+base_groups:
+    - docker

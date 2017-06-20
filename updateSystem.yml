@@ -1,0 +1,31 @@
+---
+- hosts:         all
+  become:        true
+  tasks:
+  - name:      Update apt cache if needed.
+    apt:       update_cache=yes cache_valid_time=3600
+    when:      ansible_os_family == "Debian"
+  - name:      Update System
+    apt:       upgrade=dist
+    when:      ansible_os_family == "Debian"
+    notify:
+        - rebootComputer
+        - waitForComputer
+  - name: Reboot Computers
+    shell: ( sleep 3 && /sbin/reboot & )
+    async: 0
+    poll: 0
+    ignore_errors: true
+
+  - name: Wait for the server to finish rebooting
+    become: false
+    local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
+
+  vars_files:
+    - vars/vault.yml
+  vars:
+  handlers:
+    - name:      rebootComputer
+      command:   /sbin/reboot
+    - name:      waitForComputer
+      wait_for:  host={{ inventory_hostname }} port=22 timeout={{ reboot_wait }}

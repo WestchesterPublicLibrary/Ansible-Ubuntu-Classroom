@@ -1,5 +1,3 @@
-- src: mjanser.powerline
 - src: vcabourdin.chrome
-- src: bennojoy.network_interface
 - src: hubisan.virtualbox
 - src: mongrelion.docker

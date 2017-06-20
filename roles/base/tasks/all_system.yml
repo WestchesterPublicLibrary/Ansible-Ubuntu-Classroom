@@ -1,311 +1,90 @@
 ---
-  #- include: font.yml
-#  - include: base16.yml
-- name: Include User Variables
-  include_vars: users.yml
-
-# @clean up
-#- name: remove provision temp directory
-#  file:
-#    path: "/opt/provision/"
-#    state: absent
-
-- name: Make provision directory
+- name:           Make provision directories
   file:
-    path: "/opt/provision/"
-    state: directory
-    mode: 0755
-    recurse: yes
+    path:         "{{item}}"
+    state:        directory
+    mode:         0755
+    recurse:      yes
+  with_items:
+    - "/opt/provision/"
+    - "/opt/provision/bin/"
 
-- name: Make provision directory
-  file:
-    path: "/opt/provision/bin/"
-    state: directory
-    mode: 0755
-    recurse: yes
-
-- name: Create groups before users
+- name:           Create Groups
   group:
-    name: "{{ item }}"
-    state: present
+    name:         "{{ item }}"
+    state:        present
   with_items:
-    - "{{base_groups}}"
+    - "{{ base_groups }}"
 
-
-- name: Create Public User
+- name:           Create User Accounts
   user:
-    state: present
-    comment: "Public User"
-    name: public
-    createhome: yes
-    password: "$6$7aUMFzunHBz6eN$YFpmYsvxK.hjtDHxf6cwY9Fe.ujGijvla04gxxKdVDwrrN6pOkKTh3isBsxcAU1MqoZ6Kk3rzJuLBwGtZDX1H."
-#    groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd
+    name:         "{{ item.name }}"
+    state:        "{{ item.state }}"
+    comment:      "{{ item.comment }}"
+    createhome:   "{{ item.createhome }}"
+    password:     "{{ item.password }}"
+  with_items:
+    - "{{ base_users }}"
 
-- name: Create IT User
-  user:
-    comment: "IT User"
-    state: present
-    name: it
-    createhome: yes
-#    groups: public,adm,cdrom,dip,plugdev,sambashare,libvirtd,sudo
-
-- name: Deploy keys
-  authorized_key:
-    user: it
-    key: "{{ lookup('file', '/home/joe/.ssh/remote.pub') }}"
-    path: '/etc/ssh/authorized_keys/it'
-
-# - include: "all_gconf.yml"
-
-- name: Autologin Public Create Directory
+- name:           Autologin Public Create Directory
   file:
-    path: "/etc/lightdm/lightdm.conf.d/"
-    state: directory
-    mode: 0755
+    path:         "/etc/lightdm/lightdm.conf.d/"
+    state:        directory
+    mode:         0755
 
-- name: Autologin Public User file
+- name:           Autologin Public Create Directory
+  file:
+    path:         "/etc/lightdm/lightdm.conf.d/"
+    state:        directory
+    mode:         0755
+
+- name:           Autologin Public User file
   copy:
-    src: "files/autologinpublic.conf"
-    dest: "/etc/lightdm/lightdm.conf.d/"
-    mode: 0755
+    src:          "files/autologinpublic.conf"
+    dest:         "/etc/lightdm/lightdm.conf.d/"
+    mode:         0755
 
-- name: Copy bashrc file
+- name:           Copy bashrc file
   copy:
-    src: 'files/bashrc'
-    dest: "/home/{{ item }}/.bashrc"
-    mode: 0644
-    group: "{{ item }}"
-    owner: "{{ item }}"
+    src:          'files/bashrc'
+    dest:         "/home/{{ item }}/.bashrc"
+    mode:         0644
+    group:        "{{ item }}"
+    owner:        "{{ item }}"
   with_items:
     - "{{ simple_users }}"
 
-
-#- name: Rem errant bashrc
-#  file:
-#    path: "/home/{{ item }}/bashrc"
-#    state: absent
-#  with_items:
-#    - "{{ simple_users }}"
-
-#
-# - name: Copy xscreensaver Settings
-#   copy:
-#     src: "files/xscreensaver"
-#     dest: "/home/{{ item }}/.xscreensaver"
-#     mode: 0644
-#     owner: "{{ item }}"
-#     group: "{{ item }}"
-#   with_items:
-#     - "{{ simple_users }}"
-
-
-- name: Create Directory for wallpapers
+- name:           Create Directory for wallpapers
   file:
-    path: "/opt/provision/wallpaper/"
-    state: directory
-    mode: 0755
+    path:         "/opt/provision/wallpaper/"
+    state:        directory
+    mode:         0755
 
-- name: Create Directory for wallpapers users
-  file:
-    path: "/opt/provision/wallpaper/{{ item }}/"
-    state: directory
-    mode: 0755
-    owner: "{{ item }}"
-    group: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
-
-
-- name: Copy Wallpapers
+- name:           Copy update script and make it executable
   copy:
-    src: "files/wallpaper/{{ item }}.jpg"
-    dest: "/opt/provision/wallpaper/{{ item }}/wallpaper1.jpg"
-    mode: 0644
-    owner: "{{ item }}"
-    group: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
+    src:          files/scripts/autoupdate.sh
+    dest:         /etc/cron.daily/
+    owner:        root
+    group:        root
+    mode:         755
+    backup:       yes
 
-- name: Copy Wallpapers Scripts
-  copy:
-    src: "files/scripts/rotate_bg.sh"
-    dest: "/opt/provision/bin/"
-    mode: 0755
-
-
-- name: Autologin Public Create Directory
+- name:           Ensure blacklist file exsists
   file:
-    path: "/etc/lightdm/lightdm.conf.d/"
-    state: directory
-    mode: 0755
+    path:         /etc/pm/config.d/blacklist
+    state:        touch
 
-- name: Autologin Public User file
-  copy:
-    src: "files/autologinpublic.conf"
-    dest: "/etc/lightdm/lightdm.conf.d/"
-    mode: 0755
-- name: Copy update script and make it executable
-  copy: src=files/autoupdate.sh dest=/etc/cron.daily owner=root group=root mode=755 backup=yes
-
-
-
-
-
-
-
-
-# systemD
-#   _______           _______ _________ _______  _______  ______
-#  (  ____ \|\     /|(  ____ \\__   __/(  ____ \(       )(  __  \
-#  | (    \/( \   / )| (    \/   ) (   | (    \/| () () || (  \  )
-#  | (_____  \ (_) / | (_____    | |   | (__    | || || || |   ) |
-#  (_____  )  \   /  (_____  )   | |   |  __)   | |(_)| || |   | |
-#        ) |   ) (         ) |   | |   | (      | |   | || |   ) |
-#  /\____) |   | |   /\____) |   | |   | (____/\| )   ( || (__/  )
-#  \_______)   \_/   \_______)   )_(   (_______/|/     \|(______/
-#
-
-
-- name: Make systemD Folder default.target.wants(1/3)
-  file:
-    path: "/home/{{ item }}/.config/systemd/user/default.target.wants/"
-    state: directory
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: 0700
-    recurse: yes
-  with_items:
-    - "{{ simple_users }}"
-
-- name: Make systemD Folder gnome-background-change.service.wants(2/3)
-  file:
-    path: "/home/{{ item }}/.config/systemd/user/gnome-background-change.service.wants/"
-    state: directory
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: 0700
-    recurse: yes
-  with_items:
-    - "{{ simple_users }}"
-
-- name: Make systemD Folder Fix Permissions(3/3)
-  file:
-    path: "/home/{{ item }}/.config/systemd/"
-    state: directory
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: 0700
-    recurse: yes
-  with_items:
-    - "{{ simple_users }}"
-
-
-# Wallpaper
-#            _______  _        _        _______  _______  _______  _______  _______
-#  |\     /|(  ___  )( \      ( \      (  ____ )(  ___  )(  ____ )(  ____ \(  ____ )
-#  | )   ( || (   ) || (      | (      | (    )|| (   ) || (    )|| (    \/| (    )|
-#  | | _ | || (___) || |      | |      | (____)|| (___) || (____)|| (__    | (____)|
-#  | |( )| ||  ___  || |      | |      |  _____)|  ___  ||  _____)|  __)   |     __)
-#  | || || || (   ) || |      | |      | (      | (   ) || (      | (      | (\ (
-#  | () () || )   ( || (____/\| (____/\| )      | )   ( || )      | (____/\| ) \ \__
-#  (_______)|/     \|(_______/(_______/|/       |/     \||/       (_______/|/   \__/
-#
-- name: Copying Wallpaper systemd files (1/2)
-  copy:
-    src: 'files/services/gnome-background-change.service'
-    dest: "/home/{{ item }}/.config/systemd/user"
-    mode: 0600
-    backup: yes
-    group: "{{ item }}"
-    owner: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
-
-
-- name: Copying Wallpaper systemd files (2/2)
-  copy:
-    src: 'files/services/gnome-background-change.timer'
-    dest: "/home/{{ item }}/.config/systemd/user"
-    mode: 0600
-    backup: yes
-    group: "{{ item }}"
-    owner: "{{ item }}"
-  with_items:
-    - "{{ simple_users }}"
-
-#Created symlink from /home/public/.config/systemd/user/basic.target.wants/gnome-background-change.service to /home/public/.config/systemd/user/gnome-background-change.service.
-
-#Created symlink from /home/public/.config/systemd/user/gnome-background-change.service.wants/gnome-background-change.timer to /home/public/.config/systemd/user/gnome-background-change.timer.
-
-
-- name: Manually enable Wallpaper Changer for all Users (1/2)
-  file:
-    dest: "/home/{{ item }}/.config/systemd/user/gnome-background-change.service.wants/gnome-background-change.timer"
-    src: "/home/{{ item }}/.config/systemd/user/gnome-background-change.timer"
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    state: link
-  with_items:
-    - "{{ simple_users }}"
-
-- name: Manually enable Wallpaper Changer for all Users (2/2)
-  file:
-    dest: "/home/{{ item }}/.config/systemd/user/default.target.wants/gnome-background-change.service"
-    src: "/home/{{ item }}/.config/systemd/user/gnome-background-change.service"
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    state: link
-  with_items:
-    - "{{ simple_users }}"
-
-#- name: Enable wallpaper changing service
-#  systemd:
-#    name: "gnome-background-change.timer"
-#    enabled: yes
-#    state: started
-#  become: true
-#  become_user: "{{ item }}"
-#  with_items:
-#    - "{{ simple_users }}"
-
-# Xscreensaver
-#            _______  _______  _______  _______  _______  _        _______  _______           _______  _______
-#  |\     /|(  ____ \(  ____ \(  ____ )(  ____ \(  ____ \( (    /|(  ____ \(  ___  )|\     /|(  ____ \(  ____ )
-#  ( \   / )| (    \/| (    \/| (    )|| (    \/| (    \/|  \  ( || (    \/| (   ) || )   ( || (    \/| (    )|
-#   \ (_) / | (_____ | |      | (____)|| (__    | (__    |   \ | || (_____ | (___) || |   | || (__    | (____)|
-#    ) _ (  (_____  )| |      |     __)|  __)   |  __)   | (\ \) |(_____  )|  ___  |( (   ) )|  __)   |     __)
-#   / ( ) \       ) || |      | (\ (   | (      | (      | | \   |      ) || (   ) | \ \_/ / | (      | (\ (
-#  ( /   \ )/\____) || (____/\| ) \ \__| (____/\| (____/\| )  \  |/\____) || )   ( |  \   /  | (____/\| ) \ \__
-#  |/     \|\_______)(_______/|/   \__/(_______/(_______/|/    )_)\_______)|/     \|   \_/   (_______/|/   \__/
-#
-- name: Xscreensaver Service
-  copy:
-    src: files/services/xscreensaver.service
-    dest: "/home/{{ item }}/.config/systemd/user/"
-    mode: 0600
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    backup: yes
-  with_items:
-    - "{{ simple_users }}"
-
-- name: Xscreensaver Manually enable Xscreensaver for all users
-  file:
-    dest: "/home/{{ item }}/.config/systemd/user/default.target.wants/xscreensaver.service"
-    src: "/home/{{ item }}/.config/systemd/user/xscreensaver.service"
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    state: link
-  with_items:
-    - "{{ simple_users }}"
-
-
-  #systemd: name=xscreensaver.service state=reloaded
+- name:           Ensure wifi Does not turn off
+  lineinfile:
+    dest:         /etc/pm/config.d/blacklist
+    regexp:       "^HOOK_BLACKLIST"
+    line:         "HOOK_BLACKLIST=\"wireless\""
+    backup:       yes
 
 
 #install repositories
-- name: Add repositories for Ubuntu Make
+- name:           Add repositories for Ubuntu Make
   apt_repository: repo='ppa:ubuntu-desktop/ubuntu-make' state=present
 
-- name: Add repositories for tor browser
+- name:           Add repositories for tor browser
   apt_repository: repo='ppa:webupd8team/tor-browser' state=present

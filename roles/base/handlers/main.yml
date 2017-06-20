@@ -1,0 +1,4 @@
+---
+# handlers file for base
+- name: Restart Computer
+  command: /sbin/reboot
