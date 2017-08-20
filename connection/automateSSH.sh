@@ -27,12 +27,12 @@ fi
 echo "creating Blank SSH config to ensure keys are not passed"
 touch /tmp/config
 
-if [ -f /home/$LOGNAME/.ssh/remote.pub ];
+if [ -f /home/$LOGNAME/.ssh/ansible.pub ];
 then
   echo "Key exsists lets push it to $REMOTEUSER@$REMOTEHOST"
-  ssh-copy-id -o 'PubkeyAuthentication=no' -i /home/$LOGNAME/.ssh/remote.pub "$REMOTEUSER@$REMOTEHOST"
+  ssh-copy-id -o 'PubkeyAuthentication=no' -i /home/$LOGNAME/.ssh/ansible.pub "$REMOTEUSER@$REMOTEHOST"
 else
   echo "need to make remote key for $REMOTEUSER@$REMOTEHOST"
   ssh-keygen -t rsa -b 4096 -f /home/$LOGNAME/.ssh/remote
-  ssh-copy-id -c -o PasswordAuthentication -i /home/$LOGNAME/.ssh/remote.pub "$REMOTEUSER@$REMOTEHOST"
+  ssh-copy-id -c -o PasswordAuthentication -i /home/$LOGNAME/.ssh/ansible.pub "$REMOTEUSER@$REMOTEHOST"
 fi

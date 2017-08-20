@@ -43,6 +43,23 @@
   register:     file_copied
 
 
+- name:         Copy Adafruit udev Rules
+  copy:
+    src:        "files/99-adafruit-boards.rules"
+    dest:       "/etc/udev/rules.d/"
+    mode:       0644
+    owner:      "public"
+    group:      "public"
+  register:     udevUpdated
+
+- name: Reload Udev control
+  command: udevadm control --reload-rules
+  when: udevUpdated
+
+- name: Reload udevadmin trigger
+  command: udevadm trigger
+  when: udevUpdated
+
 - name:         Arduino Link on Desktop
   copy:
     src:        "files/desktop/arduino.desktop"
@@ -66,7 +83,7 @@
 - name:         Create Aruino Global Install
   file:
     src:        "/opt/{{arduino_version}}"
-    dest:       "/opt/Arduino"
+    dest:       "/opt/arduino"
     state:      link
     mode:       0755
 

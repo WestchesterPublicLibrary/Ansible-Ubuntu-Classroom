@@ -11,7 +11,7 @@
 
 - name: Create paths
   file:
-    path: "/docker/containers/syncthing/{{ item }}"
+    path: "/docker/syncthing/{{ item }}"
     state: directory
     mode: 0775
   with_items:
@@ -25,17 +25,24 @@
     state: started
     restart_policy: unless-stopped
     recreate: no
+    exposed_ports:
+        - 2200
+        - 8080
+        - 21027/udp
     published_ports:
-      - "{{docker_ports}}"
+        - 2200:2200
+        - 21027:21027/udp
+        - 8080:8080
     volumes:
-      - "{{docker_volumes}}"
-    env:
+        - '/docker/syncthing/data/sync:/srv/data'
+        - '/docker/syncthing/config:/srv/config'
 
-- name: Open Ports for syncthing
-  firewalld:
-    port: "{{ item }}"
-    permanent: true
-    state: enabled
+- name: Open Ports for transmission UFW
+  ufw:
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    rule: allow
   with_items:
     - "{{ docker_ports }}"
-  notify: Restart firewalld
+  notify: Restart UFW
+  when: ansible_distribution == "Ubuntu"

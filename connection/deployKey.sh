@@ -20,7 +20,7 @@ echo itClassroom14 >> hosts
 echo itClassroom15 >> hosts
 echo itClassroom16 >> hosts
 echo itClassroom17 >> hosts
-#echo itClassroom18 >> hosts
+echo itClassroom18 >> hosts
 
 echo $(cat hosts)
 

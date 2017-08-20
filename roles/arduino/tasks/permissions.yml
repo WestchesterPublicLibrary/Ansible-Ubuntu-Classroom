@@ -5,29 +5,22 @@
 #x=1
 # Add user to the correct group
 # usermod -aG dialout public
-- name: Setup group permissions for arduino access
-  group: name={{ arduinoGroups }} state=present
+- name:          Setup group permissions for arduino access
+  group:         name={{ arduinoGroups }} state=present
   with_items:
     - dialout
     - tty
   loop_control:
-    loop_var: arduinoGroups
+    loop_var:    arduinoGroups
 
 # Add the user to the groups listed above
-- name: Add users to correct Groups
-  user: name={{item}} shell=/bin/bash groups=dialout,tty append=yes
+- name:          Add users to correct Groups
+  user:          name={{item}} shell=/bin/bash groups=dialout,tty append=yes
   with_items:
     - "{{arduino_users}}"
 
-# Only needed for older versions of the IDE
-#- name: Fix Sketchbook path
-#  lineinfile: dest=/home/{{item}}/.arduino/preferences.txt regexp=^sketchbook.path= line=sketchbook.path=/home/{{item}}/arduino/
-#  with_items:
-#    - "{{arduino_users}}"
-#  ignore_errors: True
-
-- name: Fixing Permissions Files
-  file: path=/home/{{item}}/arduino/tools/ArduBlockTool/tool/ardublock-all.jar owner={{item}} group={{item}} mode=0644
+- name:          Fixing Permissions Files
+  file:          path=/home/{{item}}/arduino/tools/ArduBlockTool/tool/ardublock-all.jar owner={{item}} group={{item}} mode=0644
   with_items:
     - "{{arduino_users}}"
   ignore_errors: True
