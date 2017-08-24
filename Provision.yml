@@ -9,6 +9,20 @@
         path: '/etc/ssh/authorized_keys/it'
         manage_dir: no
 
+
+    - name: Ensure apt config file exsists
+      file:
+        path: /etc/apt/apt.conf
+        state: touch
+        mode: "u=rw,g=r,o=r"
+
+    - name:           Ensure Cache is enabled
+      lineinfile:
+        dest:         /etc/apt/apt.conf
+        regexp:       "^Acquire::http { Proxy \"http://wpl-docker04.vm.library.wpl.lib.in.us:3142\"; };"
+        line:         "Acquire::http { Proxy \"http://wpl-docker04.vm.library.wpl.lib.in.us:3142\"; };"
+        backup:       yes
+
     - name: Update apt cache if needed.
       apt: update_cache=yes cache_valid_time=3600
       when: ansible_os_family == "Debian"
@@ -23,7 +37,7 @@
     # - minecraft
     # - vcabourdin.chrome
     # - mongrelion.docker
-    - docker-syncthing
+    # - docker-syncthing
 
   vars_files:
     - vars/vault.yml
