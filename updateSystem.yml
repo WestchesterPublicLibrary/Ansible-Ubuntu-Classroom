@@ -2,6 +2,16 @@
 - hosts:         all
   become:        true
   tasks:
+  - name: Send a magic Wake-on-LAN packet to classroom
+    become:        false
+    wakeonlan:
+      mac: "{{ item }}"
+      # broadcast: 192.0.2.23
+    delegate_to: localhost
+    with_items:
+      - "{{ classroom_mac }}"
+
+
   - name:      Update apt cache if needed.
     apt:       update_cache=yes cache_valid_time=3600
     when:      ansible_os_family == "Debian"
@@ -11,18 +21,19 @@
     notify:
         - rebootComputer
         - waitForComputer
-  # - name: Reboot Computers
-  #   shell: ( sleep 3 && /sbin/reboot & )
-  #   async: 0
-  #   poll: 0
-  #   ignore_errors: true
-  #
-  # - name: Wait for the server to finish rebooting
-  #   become: false
-  #   local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
+  - name: Reboot Computers
+    shell: ( sleep 3 && /sbin/reboot & )
+    async: 0
+    poll: 0
+    ignore_errors: true
+
+  - name: Wait for the server to finish rebooting
+    become: false
+    local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
 
   vars_files:
     - vars/vault.yml
+    - vars/wol.yml
   vars:
   handlers:
     - name:      rebootComputer
