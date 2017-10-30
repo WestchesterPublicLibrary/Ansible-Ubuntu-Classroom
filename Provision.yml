@@ -1,4 +1,18 @@
 ---
+# - hosts: all
+#   gather_facts: False
+#   become: true
+#   tasks:
+#     # - name: install python 2
+#     #   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+#     - name: install python 2
+#       shell: apt install -y python-minimal
+#       creates: /usr/bin/python
+#   vars_files:
+#     - vars/vault.yml
+
+
 - hosts: all
   become: true
   pre_tasks:
@@ -9,19 +23,11 @@
         path: '/etc/ssh/authorized_keys/it'
         manage_dir: no
 
-
-    - name: Ensure apt config file exsists
-      file:
-        path: /etc/apt/apt.conf
-        state: touch
-        mode: "u=rw,g=r,o=r"
-
-    - name:           Ensure Cache is enabled
-      lineinfile:
-        dest:         /etc/apt/apt.conf
-        regexp:       "^Acquire::http { Proxy \"http://wpl-docker04.vm.library.wpl.lib.in.us:3142\"; };"
-        line:         "Acquire::http { Proxy \"http://wpl-docker04.vm.library.wpl.lib.in.us:3142\"; };"
-        backup:       yes
+    - name: Setup apt-cacher
+      copy:
+        src: files/01proxy
+        dest: /etc/apt/apt.conf.d/01proxy
+        backup: true
 
     - name: Update apt cache if needed.
       apt: update_cache=yes cache_valid_time=3600
@@ -31,13 +37,16 @@
       apt: upgrade=dist
       when: ansible_os_family == "Debian"
   roles:
-    # - base
-    # - classroom
-    # - arduino
-    # - minecraft
-    # - vcabourdin.chrome
-    # - mongrelion.docker
-    # - docker-syncthing
+    - bug-fixes
+    - base
+    - geerlingguy.git
+    - geerlingguy.docker
+    - geerlingguy.pip
+    - classroom
+    - arduino
+    - minecraft
+    - cmprescott.chrome
+    - docker-syncthing
 
   vars_files:
     - vars/vault.yml
@@ -54,4 +63,4 @@
   #     become: false
   #     local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
 
-# Modules from https://github.com/JBKahn/provisioning-local.git
+# # Modules from https://github.com/JBKahn/provisioning-local.git

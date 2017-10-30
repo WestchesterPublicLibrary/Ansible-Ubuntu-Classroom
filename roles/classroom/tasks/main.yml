@@ -6,3 +6,14 @@
   file:
     path:  /opt/profiles
     state: directory
+
+- name:    Make Provision directory
+  file:
+    path:  /opt/provision/bin/
+    state: directory
+
+
+
+# - name: Update GDM login
+
+# - name: Update LDM login

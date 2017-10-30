@@ -1,0 +1,2 @@
+Acquire::HTTP::Proxy "http://wpl-docker04.vm.library.wpl.lib.in.us:3142";
+Acquire::HTTPS::Proxy "false";

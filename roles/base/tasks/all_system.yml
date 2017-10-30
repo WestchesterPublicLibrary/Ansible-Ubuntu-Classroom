@@ -26,23 +26,23 @@
   with_items:
     - "{{ base_users }}"
 
-- name:           Autologin Public Create Directory
-  file:
-    path:         "/etc/lightdm/lightdm.conf.d/"
-    state:        directory
-    mode:         0755
+#- name:           Autologin Public Create Directory
+#  file:
+#    path:         "/etc/lightdm/lightdm.conf.d/"
+#    state:        directory
+#    mode:         0755
 
-- name:           Autologin Public Create Directory
-  file:
-    path:         "/etc/lightdm/lightdm.conf.d/"
-    state:        directory
-    mode:         0755
+#- name:           Autologin Public Create Directory
+#  file:
+#    path:         "/etc/lightdm/lightdm.conf.d/"
+#    state:        directory
+#    mode:         0755
 
-- name:           Autologin Public User file
-  copy:
-    src:          "files/autologinpublic.conf"
-    dest:         "/etc/lightdm/lightdm.conf.d/"
-    mode:         0755
+#- name:           Autologin Public User file
+#  copy:
+#    src:          "files/autologinpublic.conf"
+#    dest:         "/etc/lightdm/lightdm.conf.d/"
+#    mode:         0755
 
 - name:           Copy bashrc file
   copy:
@@ -71,6 +71,11 @@
 
 - name:           Ensure blacklist file exsists
   file:
+    path:         /etc/pm/config.d/
+    state:        directory
+
+- name:           Ensure blacklist file exsists
+  file:
     path:         /etc/pm/config.d/blacklist
     state:        touch
 
@@ -83,20 +88,8 @@
 
 
 #install repositories
-- name:           Add repositories for Ubuntu Make
-  apt_repository: repo='ppa:ubuntu-desktop/ubuntu-make' state=present
+#- name:           Add repositories for Ubuntu Make
+#  apt_repository: repo='ppa:ubuntu-desktop/ubuntu-make' state=present
 
-- name:           Add repositories for tor browser
-  apt_repository: repo='ppa:webupd8team/tor-browser' state=present
-
-- name: Ensure apt config file exsists
-  file:
-    path: /etc/apt/apt.conf
-    state: touch
-    mode: "u=rw,g=r,o=r"
-- name:           Ensure Cache is enabled
-  lineinfile:
-    dest:         /etc/apt/apt.conf
-    regexp:       "^Acquire::http { Proxy \"http://wpl-docker04.vm.library.wpl.lib.in.us:3142\"; };"
-    line:         "Acquire::http { Proxy \"http://wpl-docker04.vm.library.wpl.lib.in.us:3142\"; };"
-    backup:       yes
+#- name:           Add repositories for tor browser
+#  apt_repository: repo='ppa:webupd8team/tor-browser' state=present

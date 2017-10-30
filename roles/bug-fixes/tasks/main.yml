@@ -1,0 +1,6 @@
+---
+- name: Fix for Ubuntu AA
+  lineinfile:
+    path: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
+    regexp: 'deb https://download.docker.com/linux/ubuntu artful stable'
+    line: 'deb https://download.docker.com/linux/ubuntu zesty stable'

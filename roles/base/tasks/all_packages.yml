@@ -34,7 +34,7 @@
   - firefox
   - unity-tweak-tool
   - python-pip
-  - tor-browser
+  # - tor-browser
   - nfs-common
   - virtualbox
   - virtualbox-dkms
