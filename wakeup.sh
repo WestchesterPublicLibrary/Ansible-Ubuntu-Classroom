@@ -4,6 +4,9 @@
 # https://github.com/cyraxjoe/awake
 # pip install awake
 
-scriptLOC="/home/joe/Documents/src/ansible/classroom"
-
-awake -f $scriptLOC/itClassroom.wol
+TEST=$(which awake)
+if [ $TEST ]; then
+    awake -f $PWD/itClassroom.wol
+else
+    pip install awake --user --upgrade
+fi

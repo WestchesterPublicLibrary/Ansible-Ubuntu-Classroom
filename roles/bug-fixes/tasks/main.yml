@@ -2,8 +2,22 @@
 - name: Fix for Docker Ubuntu AA
   copy:
     src: "files/download_docker_com_linux_ubuntu.list"
-    dest: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu
+    dest: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
 
+- name: Remove mistake
+  file:
+    path: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu
+    state: absent
+
+- name:       Install needed packages
+  apt:        state=present name={{ item }}
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - docker-ce
+  # screensaver
 
 
   # lineinfile:

@@ -40,7 +40,7 @@
     - bug-fixes
     - base
     - geerlingguy.git
-    - geerlingguy.docker
+    # - geerlingguy.docker
     - geerlingguy.pip
     - classroom
     - arduino
