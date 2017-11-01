@@ -78,7 +78,7 @@
     src:        "https://downloads.arduino.cc/{{ arduino_version }}-linux64.tar.xz"
     dest:       /opt/
     remote_src: yes
-    creates:   "{{ arduino_version }}"
+    creates:   "/opt/{{ arduino_version }}/arduino"
 
 - name:         Create Aruino Global Install
   file:

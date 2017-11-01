@@ -16,6 +16,8 @@
     src:      "files/minecraft.desktop"
     dest:     "/home/public/Desktop/"
     mode:     0755
+    group: public
+    owner: public
   register:   file_copied
 
 - name:       Copying Files into Computer (1/2)

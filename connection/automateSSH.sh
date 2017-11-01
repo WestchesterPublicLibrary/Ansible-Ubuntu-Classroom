@@ -33,6 +33,6 @@ then
   ssh-copy-id -o 'PubkeyAuthentication=no' -i /home/$LOGNAME/.ssh/ansible.pub "$REMOTEUSER@$REMOTEHOST"
 else
   echo "need to make remote key for $REMOTEUSER@$REMOTEHOST"
-  ssh-keygen -t rsa -b 4096 -f /home/$LOGNAME/.ssh/remote
+  ssh-keygen -t rsa -b 4096 -f /home/$LOGNAME/.ssh/ansible
   ssh-copy-id -c -o PasswordAuthentication -i /home/$LOGNAME/.ssh/ansible.pub "$REMOTEUSER@$REMOTEHOST"
 fi

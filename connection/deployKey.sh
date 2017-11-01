@@ -2,25 +2,26 @@
 CURRENTDIR=$PWD
 REMOTEUSER="it"
 cd /tmp
+rm -f hosts
 # create hosts
-echo itClassroom01 >> hosts
-echo itClassroom02 >> hosts
-echo itClassroom03 >> hosts
-echo itClassroom04 >> hosts
-echo itClassroom05 >> hosts
-echo itClassroom06 >> hosts
-echo itClassroom07 >> hosts
-echo itClassroom08 >> hosts
-echo itClassroom09 >> hosts
-echo itClassroom10 >> hosts
-echo itClassroom11 >> hosts
-echo itClassroom12 >> hosts
-echo itClassroom13 >> hosts
-echo itClassroom14 >> hosts
-echo itClassroom15 >> hosts
-echo itClassroom16 >> hosts
-echo itClassroom17 >> hosts
-echo itClassroom18 >> hosts
+echo Classroom01.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom02.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom03.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom04.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom05.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom06.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom07.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom08.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom09.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom10.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom11.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom12.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom13.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom14.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom15.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom16.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom17.classroom.library.wpl.lib.in.us >> hosts
+echo Classroom18.classroom.library.wpl.lib.in.us >> hosts
 
 echo $(cat hosts)
 
