@@ -16,12 +16,12 @@
 - hosts: all
   become: true
   pre_tasks:
-    - name: Install Keyfile to allow for easier management
-      authorized_key:
-        user: it
-        key: "{{ lookup('file', '/home/joe/.ssh/ansible.pub') }}"
-        path: '/etc/ssh/authorized_keys/it'
-        manage_dir: no
+    # - name: Install Keyfile to allow for easier management
+    #   authorized_key:
+    #     user: it
+    #     key: "{{ lookup('file', '/home/joe/.ssh/ansible.pub') }}"
+    #     path: '/etc/ssh/authorized_keys/it'
+    #     manage_dir: no
 
     - name: Setup apt-cacher
       copy:
