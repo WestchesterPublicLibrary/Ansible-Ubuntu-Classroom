@@ -3,12 +3,12 @@
   include_vars: users.yml
 
 - name:         Running generic Configurations and Commands
-  include:      "{{ genericCommands }}"
+  include_tasks:      "{{ genericCommands }}"
   with_items:
-  - "all_system.yml"
-  - "all_packages.yml"
+    - "all_system.yml"
+    - "all_packages.yml"
   # - "font.yml"
-  - "all_gconf.yml"
+    # - "all_gconf.yml"
   loop_control:
     loop_var:   genericCommands
 

@@ -1,4 +1,4 @@
-[itClassroom]
+[classroom]
 Classroom[01:18].classroom.library.wpl.lib.in.us
 #192.168.51.93
 #192.168.80.5
@@ -7,7 +7,13 @@ Classroom[01:18].classroom.library.wpl.lib.in.us
 #192.168.80.4
 #192.168.80.2
 
-[itClassroom:vars]
+[gluster]
+#Classroom01.classroom.library.wpl.lib.in.us
+#Classroom10.classroom.library.wpl.lib.in.us
+
+
+
+[all:vars]
 ansible_user=it
 ansible_ssh_private_key_file=/home/joe/.ssh/ansible
 deploy_target=it

@@ -1,28 +1,21 @@
 ---
-# - hosts: all
-#   gather_facts: False
-#   become: true
-#   tasks:
-#     # - name: install python 2
-#     #   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+- hosts: all
+  gather_facts: False
+  become: true
+  tasks:
+    - name: install python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 
-#     - name: install python 2
-#       shell: apt install -y python-minimal
-#       creates: /usr/bin/python
-#   vars_files:
-#     - vars/vault.yml
+    # - name: install python 2
+    #   shell: apt install -y python-minimal
+    #   creates: /usr/bin/python
+  vars_files:
+    - vars/vault.yml
 
 
 - hosts: all
   become: true
   pre_tasks:
-    # - name: Install Keyfile to allow for easier management
-    #   authorized_key:
-    #     user: it
-    #     key: "{{ lookup('file', '/home/joe/.ssh/ansible.pub') }}"
-    #     path: '/etc/ssh/authorized_keys/it'
-    #     manage_dir: no
-
     - name: Setup apt-cacher
       copy:
         src: files/01proxy
@@ -37,16 +30,19 @@
       apt: upgrade=dist
       when: ansible_os_family == "Debian"
   roles:
-    - bug-fixes
+    # - bug-fixes
     - base
-    - geerlingguy.git
-    # - geerlingguy.docker
-    - geerlingguy.pip
-    - classroom
-    - arduino
+    # - geerlingguy.git
+    # - classroom
+    # - arduino
     - minecraft
-    - cmprescott.chrome
-    - docker-syncthing
+    # - geerlingguy.docker
+    # - geerlingguy.pip
+    # - geerlingguy.firewall
+    # - geerlingguy.glusterfs
+    # - cmprescott.chrome
+    # - docker-syncthing
+
 
   vars_files:
     - vars/vault.yml

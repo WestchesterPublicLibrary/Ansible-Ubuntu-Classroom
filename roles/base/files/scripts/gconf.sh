@@ -10,13 +10,9 @@ gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/background
 gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/foreground_color "white"
 gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/background_color "black"
 
-gconftool-2 --type boolean --set /con/cononical/unity/integrated-menus true
-gconftool-2 --type as --set /com/cononical/unity/webapps []
-
 ### Adjust screensaver settings
 gconftool-2 --type boolean --set /org/gnome/desktop/screensaver/lock-enabled false
 gconftool-2 --type integer --set /org/gnome/desktop/screensaver/lock-delay 0
-gconftool-2 --type boolean --set /org/gnome/desktop/screensaver/ubuntu-lock-on-suppend false
 
 gconftool-2 --type integer --set /org/gnome/desktop/session/idle-delay 300
 gconftool-2 --type boolean --set /org/gnome/desktop/screensaver/idle-activation-enabled true

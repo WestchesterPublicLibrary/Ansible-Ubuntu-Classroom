@@ -23,8 +23,12 @@
     comment:      "{{ item.comment }}"
     createhome:   "{{ item.createhome }}"
     password:     "{{ item.password }}"
+    generate_ssh_key: yes
   with_items:
     - "{{ base_users }}"
+
+
+
 
 #- name:           Autologin Public Create Directory
 #  file:

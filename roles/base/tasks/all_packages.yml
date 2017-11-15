@@ -40,6 +40,7 @@
   - virtualbox-dkms
   - virtualbox-ext-pack
   - virtualbox-guest-additions-iso
+  - glusterfs-client
 #Developer packages. These might end up being in their own groups
   - screen
   - git

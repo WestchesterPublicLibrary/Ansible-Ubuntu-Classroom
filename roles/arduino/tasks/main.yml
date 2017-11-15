@@ -1,6 +1,4 @@
 ---
-- include:      permissions.yml
-
 - name:         Install Arduino -_-
   # Install Debian Specific files.
   apt:
@@ -54,11 +52,11 @@
 
 - name: Reload Udev control
   command: udevadm control --reload-rules
-  when: udevUpdated
+  when: udevUpdated == True
 
 - name: Reload udevadmin trigger
   command: udevadm trigger
-  when: udevUpdated
+  when: udevUpdated == True
 
 - name:         Arduino Link on Desktop
   copy:
@@ -96,3 +94,5 @@
     recurse:    yes
   with_items:
     - "{{arduino_users}}"
+
+- import_tasks:      permissions.yml

@@ -1,8 +1,25 @@
 ---
 # Enable UFW
+
+- name: Open TCP Ports for classroom UFW
+  ufw:
+    port: "{{ item }}"
+    proto: "tcp"
+    rule: allow
+  with_items:
+    - "{{ firewall_allowed_tcp_ports }}"
+  notify: Restart UFW
+  when: ansible_distribution == "Ubuntu"
+
+- name: Open UDP Ports for classroom UFW
+  ufw:
+    port: "{{ item }}"
+    proto: "udp"
+    rule: allow
+  with_items:
+    - "{{ firewall_allowed_udp_ports }}"
+  notify: Restart UFW
+  when: ansible_distribution == "Ubuntu"
+
 - name: Enalbe UFW
   ufw: state=enabled
-
-# Allow OpenSSH
-- name: UFW - Allow OpenSSH
-  ufw: rule=allow name=OpenSSH

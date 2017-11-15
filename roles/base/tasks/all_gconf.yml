@@ -5,13 +5,3 @@
   become_user: "{{ item }}"
   with_items:
     - "{{simple_users}}"
-
-- name:        Copy Xscreensaver file
-  copy:
-    src:       files/xscreensaver
-    dest:      "/home/{{ item }}/.xscreensaver"
-    owner:     "{{ item }}"
-    group:     "{{ item }}"
-    mode:      644
-  with_items:
-    - "{{simple_users}}"

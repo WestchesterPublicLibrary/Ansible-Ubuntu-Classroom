@@ -1,13 +1,13 @@
 ---
 base_users:
     - name:       public
-      comment:    "Default Public login account"
+      comment:    "Public Account"
       createhome: yes
       state:      present
       password:   "{{vault_passwords.public}}"
       groups:     public,adm,cdrom,dip,plugdev,sambashare,libvirtd
     - name:       it
-      comment:    "Default IT Administrative login account"
+      comment:    "IT Administrative Account"
       createhome: yes
       state:      present
       password:   "{{vault_passwords.it}}"

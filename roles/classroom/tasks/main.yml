@@ -1,6 +1,7 @@
 ---
-- include: groups.yml
-- include: firewall.yml
+# - import_tasks: groups.yml
+- import_tasks: firewall.yml
+# - import_tasks: home_sync.yml
 
 - name:    Make Profiles directory
   file:
@@ -12,6 +13,10 @@
     path:  /opt/provision/bin/
     state: directory
 
+- name: Copy autologin Custom GDM config
+  copy:
+    src: files/custom.conf
+    dest: /etc/gdm3/custom.conf
 
 
 # - name: Update GDM login
