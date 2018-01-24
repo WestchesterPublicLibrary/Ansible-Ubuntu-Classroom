@@ -32,16 +32,16 @@
   roles:
     # - bug-fixes
     - base
-    # - geerlingguy.git
-    # - classroom
-    # - arduino
+    - geerlingguy.git
+    - classroom
+    - arduino
     - minecraft
-    # - geerlingguy.docker
-    # - geerlingguy.pip
+    - geerlingguy.pip
+    #- geerlingguy.docker
     # - geerlingguy.firewall
     # - geerlingguy.glusterfs
     # - cmprescott.chrome
-    # - docker-syncthing
+    - docker-syncthing
 
 
   vars_files:

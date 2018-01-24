@@ -1,9 +1,9 @@
 ---
 # vars file for docker-syncthing
 docker_ports:
-    - port: 2200
+    - port: 22000
       proto: tcp
-    - port: 2200
+    - port: 8384
       proto: tcp
     - port: 21027
       proto: udp
