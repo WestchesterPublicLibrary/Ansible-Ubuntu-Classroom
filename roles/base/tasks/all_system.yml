@@ -27,27 +27,6 @@
   with_items:
     - "{{ base_users }}"
 
-
-
-
-#- name:           Autologin Public Create Directory
-#  file:
-#    path:         "/etc/lightdm/lightdm.conf.d/"
-#    state:        directory
-#    mode:         0755
-
-#- name:           Autologin Public Create Directory
-#  file:
-#    path:         "/etc/lightdm/lightdm.conf.d/"
-#    state:        directory
-#    mode:         0755
-
-#- name:           Autologin Public User file
-#  copy:
-#    src:          "files/autologinpublic.conf"
-#    dest:         "/etc/lightdm/lightdm.conf.d/"
-#    mode:         0755
-
 - name:           Copy bashrc file
   copy:
     src:          'files/bashrc'

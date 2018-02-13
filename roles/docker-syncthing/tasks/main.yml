@@ -9,33 +9,67 @@
   pip:
       name: docker-py
 
-- name: Create paths
+- name: Create config paths
   file:
-    path: "/docker/syncthing/{{ item }}"
+    path: "/docker/containers/syncthing/{{ item }}"
     state: directory
     mode: 0775
+    owner: 911
+    group: docker
+    recurse: yes
+  with_items:
+    - config
+
+- name: Create data paths
+  file:
+    path: "/docker/containers/syncthing/{{ item }}"
+    state: directory
+    mode: 0775
+    owner: 1000
+    group: 1000
+    recurse: yes
   with_items:
     - data
-    - config
+    - data/sync
+    - data/public_profile
+    - data/tapet
+
+- name: Remove Old Paths
+  file:
+    path: "/docker/containers/syncthing/{{ item }}"
+    state: absent
+  with_items:
+    - sync
+    - public_profile
+    - tapet
+
+
 
 - name: Start syncthing container
   docker_container:
     name: syncthing
-    image: joeybaker/syncthing
+    image: linuxserver/syncthing
     state: started
-    restart_policy: unless-stopped
-    recreate: no
+    restart_policy: always
+    recreate: yes
+    pull: true
     exposed_ports:
-        - 2200
-        - 8080
+        - 22000
+        - 8384
         - 21027/udp
     published_ports:
-        - 2200:2200
+        - 22000:22000
         - 21027:21027/udp
-        - 8080:8080
+        - 8384:8384
     volumes:
-        - '/docker/syncthing/data/sync:/srv/data'
-        - '/docker/syncthing/config:/srv/config'
+        - '/docker/containers/syncthing/data/sync:/mnt/sync'
+        - '/docker/containers/syncthing/data/public_profile:/mnt/public_profile'
+        - '/docker/containers/syncthing/data/tapet:/mnt/tapet'
+        - '/docker/containers/syncthing/config:/config'
+    env:
+        PGID: 1000
+        PUID: 1000
+        TZ: America/Chicago
 
 - name: Open Ports for transmission UFW
   ufw:
