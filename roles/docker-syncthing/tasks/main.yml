@@ -124,6 +124,16 @@
 
 - name: Show configuration
   debug:
-    var: rest_config
+    var: rest_config.x_syncthing_id
 
 # curl -X GET -H "X-API-Key:{{ api_key.matches[0].apikey }}" http://localhost:8384/rest/system/config
+
+- name: Restart Syncthing
+  uri:
+    url: http://localhost:8384/rest/system/restart
+    method: POST
+    body_format: json
+    headers:
+      X-API-KEY: "{{ api_key.matches[0].apikey }}"
+    return_contents: yes
+  register: rest_config
