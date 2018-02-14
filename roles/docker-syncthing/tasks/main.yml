@@ -88,35 +88,42 @@
 #   notify: Restart UFW
 #   when: ansible_distribution == "Ubuntu"
 
-# # - name: Syncronize api Keys
-# #   lineinfile:
-# #     state: present
-# #     backrefs: yes
-# #     path: /docker/containers/syncthing/config/config.xml
-# #     regexp: '^<apikey>'
-# #     line: '<apikey>k6r3VZDmyxpK4MTXEKCNUqFqYJAwbLxF</apikey>'
+# - name: Read attribute value
+#   xml:
+#     path: /docker/containers/syncthing/config/config.xml
+#     xpath: /configuration/device/@id
+#     content: attribute
+#     attribute: id
+#   register: device_id
 
-
-- name: Read attribute value
-  xml:
-    path: /docker/containers/syncthing/config/config.xml
-    xpath: /configuration/folder/device
-    content: attribute
-    attribute: id
-  register: device_id
-
-- name: Show attribute value
-  debug:
-    var: device_id.matches[0].validxhtml.id
+# - name: Show attribute value
+#   debug:
+#     var: device_id
 
 - name: Read attribute value
   xml:
     path: /docker/containers/syncthing/config/config.xml
     xpath: /configuration/gui/apikey
     content: text
-    # attribute: apikey
   register: api_key
 
 - name: Show api key value
   debug:
     var: api_key.matches[0].apikey
+
+- name: Get configuration
+  uri:
+    url: http://localhost:8384/rest/system/config
+    method: GET
+    body_format: json
+    headers:
+      X-API-KEY: "{{ api_key.matches[0].apikey }}"
+    return_contents: yes
+  register: rest_config
+
+
+- name: Show configuration
+  debug:
+    var: rest_config
+
+# curl -X GET -H "X-API-Key:{{ api_key.matches[0].apikey }}" http://localhost:8384/rest/system/config
