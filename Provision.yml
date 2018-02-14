@@ -31,17 +31,18 @@
       when: ansible_os_family == "Debian"
   roles:
     # - bug-fixes
-    - base
-    - geerlingguy.git
-    - classroom
-    - arduino
-    - minecraft
-    - geerlingguy.pip
+    # - base
+    # - geerlingguy.git
+    # - classroom
+    # - arduino
+    # - minecraft
+    # - geerlingguy.pip
     #- geerlingguy.docker
     # - geerlingguy.firewall
     # - geerlingguy.glusterfs
     # - cmprescott.chrome
     - docker-syncthing
+    # - docker-ping
 
 
   vars_files:

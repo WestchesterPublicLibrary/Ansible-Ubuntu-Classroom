@@ -1,82 +1,122 @@
 ---
 # tasks file for docker-syncthing
 
-- name: Install python-pip
-  apt:
-      name: python-pip
-      state: present
-- name: Install docker-py
-  pip:
-      name: docker-py
+# - name: Install python-pip
+#   apt:
+#       name: python-pip
+#       state: present
+# - name: Install required python libraries
+#   pip:
+#     name: "{{ item }}"
+#   with_items:
+#     - docker-py
+#     - lxml
 
-- name: Create config paths
-  file:
-    path: "/docker/containers/syncthing/{{ item }}"
-    state: directory
-    mode: 0775
-    owner: 911
-    group: docker
-    recurse: yes
-  with_items:
-    - config
+# - name: Create config paths
+#   file:
+#     path: "/docker/containers/syncthing/{{ item }}"
+#     state: directory
+#     mode: 0775
+#     owner: it
+#     group: it
+#     recurse: yes
+#   with_items:
+#     - config
 
-- name: Create data paths
-  file:
-    path: "/docker/containers/syncthing/{{ item }}"
-    state: directory
-    mode: 0775
-    owner: 1000
-    group: 1000
-    recurse: yes
-  with_items:
-    - data
-    - data/sync
-    - data/public_profile
-    - data/tapet
+# - name: Create data paths
+#   file:
+#     path: "/docker/containers/syncthing/{{ item }}"
+#     state: directory
+#     mode: 0775
+#     owner: it
+#     group: it
+#     recurse: yes
+#   with_items:
+#     - data
+#     - data/sync
+#     - data/public_profile
+#     - data/tapet
 
-- name: Remove Old Paths
-  file:
-    path: "/docker/containers/syncthing/{{ item }}"
-    state: absent
-  with_items:
-    - sync
-    - public_profile
-    - tapet
+# - name: Remove Old Paths
+#   file:
+#     path: "/docker/containers/syncthing/{{ item }}"
+#     state: absent
+#   with_items:
+#     - sync
+#     - public_profile
+#     - tapet
+
+# # Run this to reset ids
+# # - name: Remove config.xml file
+# #   file:
+# #     path: "/docker/containers/syncthing/config/config.xml"
+# #     state: absent
+
+# - name: Start syncthing container
+#   docker_container:
+#     name: syncthing
+#     image: linuxserver/syncthing
+#     state: started
+#     restart_policy: always
+#     recreate: yes
+#     pull: true
+#     exposed_ports:
+#         - 22000
+#         - 8384
+#         - 21027/udp
+#     published_ports:
+#         - 22000:22000
+#         - 21027:21027/udp
+#         - 8384:8384
+#     volumes:
+#         - '/docker/containers/syncthing/data/sync:/mnt/sync'
+#         - '/docker/containers/syncthing/data/public_profile:/mnt/public_profile'
+#         - '/docker/containers/syncthing/data/tapet:/mnt/tapet'
+#         - '/docker/containers/syncthing/config:/config'
+#     env:
+#         PGID: 1000
+#         PUID: 1000
+#         TZ: America/Chicago
+
+# - name: Open Ports for transmission UFW
+#   ufw:
+#     port: "{{ item.port }}"
+#     proto: "{{ item.proto }}"
+#     rule: allow
+#   with_items:
+#     - "{{ docker_ports }}"
+#   notify: Restart UFW
+#   when: ansible_distribution == "Ubuntu"
+
+# # - name: Syncronize api Keys
+# #   lineinfile:
+# #     state: present
+# #     backrefs: yes
+# #     path: /docker/containers/syncthing/config/config.xml
+# #     regexp: '^<apikey>'
+# #     line: '<apikey>k6r3VZDmyxpK4MTXEKCNUqFqYJAwbLxF</apikey>'
 
 
+- name: Read attribute value
+  xml:
+    path: /docker/containers/syncthing/config/config.xml
+    xpath: /configuration/folder/device
+    content: attribute
+    attribute: id
+  register: device_id
 
-- name: Start syncthing container
-  docker_container:
-    name: syncthing
-    image: linuxserver/syncthing
-    state: started
-    restart_policy: always
-    recreate: yes
-    pull: true
-    exposed_ports:
-        - 22000
-        - 8384
-        - 21027/udp
-    published_ports:
-        - 22000:22000
-        - 21027:21027/udp
-        - 8384:8384
-    volumes:
-        - '/docker/containers/syncthing/data/sync:/mnt/sync'
-        - '/docker/containers/syncthing/data/public_profile:/mnt/public_profile'
-        - '/docker/containers/syncthing/data/tapet:/mnt/tapet'
-        - '/docker/containers/syncthing/config:/config'
-    env:
-        PGID: 1000
-        PUID: 1000
-        TZ: America/Chicago
+- name: Show attribute value
+  debug:
+    var: device_id.matches[0].validxhtml.id
 
-- name: Open Ports for transmission UFW
-  ufw:
-    port: "{{ item.port }}"
-    proto: "{{ item.proto }}"
-    rule: allow
-  with_items:
-    - "{{ docker_ports }}"
-  notify: Restart UFW
-  when: ansible_distribution == "Ubuntu"
+- name: Read attribute value
+  xml:
+    path: /docker/containers/syncthing/config/config.xml
+    xpath: /configuration/gui/apikey
+    content: text
+    # attribute: apikey
+  register: api_key
+
+- name: Show api key value
+  debug:
+    var: api_key.matches[0].apikey
