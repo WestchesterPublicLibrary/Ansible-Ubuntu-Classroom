@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  remote_user: root
+  pre_tasks:
+    - name: Install docker-py
+      pip:
+        name: bottle
+
+  roles:
+    - mongrelion.docker
+    - docker-syncthing

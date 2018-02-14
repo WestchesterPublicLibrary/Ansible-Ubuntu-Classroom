@@ -31,32 +31,33 @@
       when: ansible_os_family == "Debian"
   roles:
     # - bug-fixes
-    - base
-    - geerlingguy.git
-    - classroom
-    - arduino
-    - minecraft
-    - geerlingguy.pip
+    # - base
+    # - geerlingguy.git
+    # - classroom
+    # - arduino
+    # - minecraft
+    # - geerlingguy.pip
     #- geerlingguy.docker
     # - geerlingguy.firewall
     # - geerlingguy.glusterfs
     # - cmprescott.chrome
-    - docker-syncthing
+    # - docker-syncthing
+    # - docker-ping
 
 
   vars_files:
     - vars/vault.yml
     - vars/firewall.yml
   #
-  # post_tasks:
-  #   - name: Reboot Computers
-  #     shell: ( sleep 3 && /sbin/reboot & )
-  #     async: 0
-  #     poll: 0
-  #     ignore_errors: true
-  #
-  #   - name: Wait for the server to finish rebooting
-  #     become: false
-  #     local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
+  post_tasks:
+    - name: Reboot Computers
+      shell: ( sleep 3 && /sbin/reboot & )
+      async: 0
+      poll: 0
+      ignore_errors: true
+
+    - name: Wait for the server to finish rebooting
+      become: false
+      local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
 
 # # Modules from https://github.com/JBKahn/provisioning-local.git

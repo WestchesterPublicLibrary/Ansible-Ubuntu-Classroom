@@ -1,0 +1,4 @@
+docker-syncthing ansible_connection=docker
+
+[group1]
+docker-syncthing
