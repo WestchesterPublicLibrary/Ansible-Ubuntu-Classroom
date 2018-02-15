@@ -1,6 +1,6 @@
 ---
 - name: Shutdown Machines
-  shell: sleep 2 && shutdown -H now "Ansible updates triggered"
+  shell: sleep 2 && shutdown -H --poweroff now "Ansible updates triggered"
   async: 1
   poll: 0
   sudo: true
