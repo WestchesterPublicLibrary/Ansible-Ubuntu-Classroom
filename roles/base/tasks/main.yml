@@ -8,7 +8,7 @@
     - "all_system.yml"
     - "all_packages.yml"
   # - "font.yml"
-    # - "all_gconf.yml"
+    - "all_gconf.yml"
   loop_control:
     loop_var:   genericCommands
 

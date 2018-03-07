@@ -36,7 +36,7 @@
     #   when: ansible_os_family == "Debian"
   roles:
     # - bug-fixes
-    # - base
+    - base
     # - geerlingguy.git
     # - classroom
     # - arduino
@@ -48,7 +48,7 @@
     # - geerlingguy.glusterfs
     # - cmprescott.chrome
     # - docker-syncthing
-    # - docker-ping
+    - docker-ping
 
   vars:
     - set_fact:
