@@ -1,0 +1,27 @@
+---
+# tasks file for docker-syncthing
+
+- name: Install python-pip
+  apt:
+      name: python-pip
+      state: present
+- name: Install docker-py
+  pip:
+      name: docker-py
+
+- name: Start ping
+  docker_container:
+    name: ping
+    image: campbel/ping
+    state: started
+    restart_policy: always
+    recreate: yes
+    pull: true
+    exposed_ports:
+        - 80
+    published_ports:
+        - 8080:80
+    env:
+        TARGET: google.com
+
+

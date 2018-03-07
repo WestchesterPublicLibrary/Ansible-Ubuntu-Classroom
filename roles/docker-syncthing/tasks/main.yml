@@ -14,7 +14,7 @@
     path: "/docker/containers/syncthing/{{ item }}"
     state: directory
     mode: 0775
-    owner: 911
+    owner: 1000
     group: docker
     recurse: yes
   with_items:
