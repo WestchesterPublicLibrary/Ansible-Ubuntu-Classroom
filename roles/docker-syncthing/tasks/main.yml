@@ -71,7 +71,7 @@
         PUID: 1000
         TZ: America/Chicago
 
-- name: Open Ports for transmission UFW
+- name: Open Ports for syncthing UFW
   ufw:
     port: "{{ item.port }}"
     proto: "{{ item.proto }}"
