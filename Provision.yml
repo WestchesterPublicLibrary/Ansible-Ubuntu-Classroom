@@ -28,7 +28,7 @@
 
     - name: Update System
       apt: upgrade=dist
-      when: ansible_os_family == "Debian"
+      when: ansible_os_family == "Debian"s
   roles:
     # - bug-fixes
     - base
@@ -37,7 +37,7 @@
     - arduino
     - minecraft
     - geerlingguy.pip
-    #- geerlingguy.docker
+    # - geerlingguy.docker
     # - geerlingguy.firewall
     # - geerlingguy.glusterfs
     # - cmprescott.chrome
