@@ -42,13 +42,13 @@
     # - arduino
     # - minecraft
     # - geerlingguy.pip
-    - geerlingguy.docker
+    # - geerlingguy.docker
     # - ansible-role-docker
     # - geerlingguy.firewall
     # - geerlingguy.glusterfs
     # - cmprescott.chrome
     # - docker-syncthing
-    - docker-ping
+    # - docker-ping
 
   vars:
     - set_fact:
