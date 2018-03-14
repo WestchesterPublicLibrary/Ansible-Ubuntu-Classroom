@@ -1,7 +1,16 @@
 ---
-- name:        Run Gconf scripts
-  script:      files/scripts/gconf.sh
-  become:      yes
+# - name:        Run Gconf scripts
+#   script:      files/scripts/gconf.sh
+#   become:      yes
+#   become_user: "{{ item }}"
+#   with_items:
+#     - "{{simple_users}}"
+
+    # Set the value of a key for different user
+- gsetting:
+    key: org.gnome.desktop.session.idle-delay
+    value: 0
+  become: true
   become_user: "{{ item }}"
   with_items:
-    - "{{simple_users}}"
+    - "{{simple_users}}"  

@@ -1,0 +1,41 @@
+- name:           Make provision directories
+  file:
+    path:         "{{item}}"
+    state:        directory
+    mode:         0755
+    recurse:      yes
+  with_items:
+    - "/opt/provision/"
+    - "/opt/provision/bin/"
+
+- name:           Create Directory for wallpapers
+  file:
+    path:         "/opt/provision/wallpaper/"
+    state:        directory
+    mode:         0755
+
+- name:           Copy update script and make it executable
+  copy:
+    src:          files/scripts/autoupdate.sh
+    dest:         /etc/cron.daily/
+    owner:        root
+    group:        root
+    mode:         755
+    backup:       yes
+
+- name:           Ensure blacklist file exsists
+  file:
+    path:         /etc/pm/config.d/
+    state:        directory
+
+- name:           Ensure blacklist file exsists
+  file:
+    path:         /etc/pm/config.d/blacklist
+    state:        touch
+
+- name:           Ensure wifi Does not turn off
+  lineinfile:
+    dest:         /etc/pm/config.d/blacklist
+    regexp:       "^HOOK_BLACKLIST"
+    line:         "HOOK_BLACKLIST=\"wireless\""
+    backup:       yes

@@ -14,7 +14,7 @@
     path: "/docker/containers/syncthing/{{ item }}"
     state: directory
     mode: 0775
-    owner: 911
+    owner: 1000
     group: docker
     recurse: yes
   with_items:
@@ -71,7 +71,7 @@
         PUID: 1000
         TZ: America/Chicago
 
-- name: Open Ports for transmission UFW
+- name: Open Ports for syncthing UFW
   ufw:
     port: "{{ item.port }}"
     proto: "{{ item.proto }}"

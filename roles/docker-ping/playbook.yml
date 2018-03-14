@@ -1,0 +1,12 @@
+---
+- hosts: all
+  roles:
+    - role: docker-syncthing
+  pre_tasks:
+    - name: Install python-pip
+      apt:
+        name: python-pip
+        state: present
+    - name: Install docker-py
+      pip:
+        name: docker-py

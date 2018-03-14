@@ -1,0 +1,24 @@
+---
+# tasks file for docker-syncthing
+
+- name: Install python-pip
+  apt:
+      name: python-pip
+      state: present
+- name: Install docker-py
+  pip:
+      name: docker-py
+
+- name: Start ping
+  docker_container:
+    name: ping
+    image: willfarrell/ping
+    state: started
+    restart_policy: always
+    recreate: no
+    pull: true
+    env:
+        HOSTNAME: google.com
+        TIMEOUT: 300
+
+
