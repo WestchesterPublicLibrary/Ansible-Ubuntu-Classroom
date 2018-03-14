@@ -1,6 +1,16 @@
 ---
+
+- name:         Running generic Configurations and Commands
+  include_tasks:      "{{ Class_Room_Configuration }}"
+  with_items:
+    - "all_system.yml"
+    - "all_packages.yml"
+    - "firewall.yml"
+  loop_control:
+    loop_var:   Class_Room_Configuration
+
 # - import_tasks: groups.yml
-- import_tasks: firewall.yml
+# - import_tasks: firewall.yml
 # - import_tasks: home_sync.yml
 
 - name:    Make Profiles directory

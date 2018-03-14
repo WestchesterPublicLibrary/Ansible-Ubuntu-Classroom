@@ -1,4 +1,3 @@
----
 # Remove Files
 - name:       Remove unneeded packages
   apt:
@@ -23,6 +22,14 @@
     state: present
     name: "{{ item }}"
   with_items:
+  # screensaver
+  - xscreensaver
+  - xscreensaver-gl
+  - xscreensaver-gl-extra
+  - xscreensaver-screensaver-dizzy
+  - xscreensaver-screensaver-webcollage
+  - xscreensaver-data-extra
+  - rss-glx
   # Core Desktop Tools
   - python-software-properties
   - htop
@@ -39,8 +46,7 @@
   - virtualbox-dkms
   - virtualbox-ext-pack
   - virtualbox-guest-additions-iso
-
+  - glusterfs-client
 #Developer packages. These might end up being in their own groups
   - tmux
   - git
-...
