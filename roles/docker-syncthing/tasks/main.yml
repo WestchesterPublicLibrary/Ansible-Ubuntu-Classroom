@@ -1,16 +1,16 @@
 ---
 # tasks file for docker-syncthing
 
-# - name: Install python-pip
-#   apt:
-#       name: python-pip
-#       state: present
-# - name: Install required python libraries
-#   pip:
-#     name: "{{ item }}"
-#   with_items:
-#     - docker-py
-#     - lxml
+- name: Install python-pip
+  apt:
+      name: python-pip
+      state: present
+- name: Install required python libraries
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - docker-py
+    - lxml
 
 # - name: Create config paths
 #   file:
@@ -47,36 +47,36 @@
 #     - tapet
 
 # # Run this to reset ids
-# # - name: Remove config.xml file
-# #   file:
-# #     path: "/docker/containers/syncthing/config/config.xml"
-# #     state: absent
+# - name: Remove config.xml file
+#   file:
+#     path: "/docker/containers/syncthing/config/config.xml"
+#     state: absent
 
-# - name: Start syncthing container
-#   docker_container:
-#     name: syncthing
-#     image: linuxserver/syncthing
-#     state: started
-#     restart_policy: always
-#     recreate: yes
-#     pull: true
-#     exposed_ports:
-#         - 22000
-#         - 8384
-#         - 21027/udp
-#     published_ports:
-#         - 22000:22000
-#         - 21027:21027/udp
-#         - 8384:8384
-#     volumes:
-#         - '/docker/containers/syncthing/data/sync:/mnt/sync'
-#         - '/docker/containers/syncthing/data/public_profile:/mnt/public_profile'
-#         - '/docker/containers/syncthing/data/tapet:/mnt/tapet'
-#         - '/docker/containers/syncthing/config:/config'
-#     env:
-#         PGID: 1000
-#         PUID: 1000
-#         TZ: America/Chicago
+- name: Start syncthing container
+  docker_container:
+    name: syncthing
+    image: linuxserver/syncthing
+    state: started
+    restart_policy: always
+    # recreate: yes
+    pull: true
+    exposed_ports:
+        - 22000
+        - 8384
+        - 21027/udp
+    published_ports:
+        - 22000:22000
+        - 21027:21027/udp
+        - 8384:8384
+    volumes:
+        - '/docker/containers/syncthing/data/sync:/mnt/sync'
+        - '/docker/containers/syncthing/data/public_profile:/mnt/public_profile'
+        - '/docker/containers/syncthing/data/tapet:/mnt/tapet'
+        - '/docker/containers/syncthing/config:/config'
+    env:
+        PGID: 1000
+        PUID: 1000
+        TZ: America/Chicago
 
 # - name: Open Ports for transmission UFW
 #   ufw:

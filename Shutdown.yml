@@ -20,8 +20,21 @@
 #
 - hosts: all
   become: true
+  pre_tasks:
+    - name: Setup apt-cacher
+      copy:
+        src: files/01proxy
+        dest: /etc/apt/apt.conf.d/01proxy
+        backup: true
+
+    - name: Update apt cache if needed.
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == "Debian"
+
+    - name: Update System
+      apt: upgrade=dist
+      when: ansible_os_family == "Debian"
   roles:
     - shutdown
-
   vars_files:
     - vars/vault.yml
