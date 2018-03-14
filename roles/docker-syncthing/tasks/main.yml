@@ -46,37 +46,41 @@
 #     - public_profile
 #     - tapet
 
-# # Run this to reset ids
+# Run this to reset ids
 # - name: Remove config.xml file
 #   file:
-#     path: "/docker/containers/syncthing/config/config.xml"
+#     path: "/docker/containers/syncthing/config/{{ item }}"
 #     state: absent
+#   with_items:
+#     - config.xml
+#     - key.pem
+#     - cert.pem
 
-- name: Start syncthing container
-  docker_container:
-    name: syncthing
-    image: linuxserver/syncthing
-    state: started
-    restart_policy: always
-    # recreate: yes
-    pull: true
-    exposed_ports:
-        - 22000
-        - 8384
-        - 21027/udp
-    published_ports:
-        - 22000:22000
-        - 21027:21027/udp
-        - 8384:8384
-    volumes:
-        - '/docker/containers/syncthing/data/sync:/mnt/sync'
-        - '/docker/containers/syncthing/data/public_profile:/mnt/public_profile'
-        - '/docker/containers/syncthing/data/tapet:/mnt/tapet'
-        - '/docker/containers/syncthing/config:/config'
-    env:
-        PGID: 1000
-        PUID: 1000
-        TZ: America/Chicago
+# - name: Start syncthing container
+#   docker_container:
+#     name: syncthing
+#     image: linuxserver/syncthing
+#     state: started
+#     restart_policy: always
+#     recreate: yes
+#     pull: true
+#     exposed_ports:
+#         - 22000
+#         - 8384
+#         - 21027/udp
+#     published_ports:
+#         - 22000:22000
+#         - 21027:21027/udp
+#         - 8384:8384
+#     volumes:
+#         - '/docker/containers/syncthing/data/sync:/mnt/sync'
+#         - '/docker/containers/syncthing/data/public_profile:/mnt/public_profile'
+#         - '/docker/containers/syncthing/data/tapet:/mnt/tapet'
+#         - '/docker/containers/syncthing/config:/config'
+#     env:
+#         PGID: 1000
+#         PUID: 1000
+#         TZ: America/Chicago
 
 # - name: Open Ports for transmission UFW
 #   ufw:
@@ -126,6 +130,40 @@
   debug:
     var: rest_config.x_syncthing_id
 
+# - name: Make configuration Persistant
+#   set_fact:
+#     docker_syncthing_API: "{{api_key.matches[0].apikey}}"
+#     # other_fact: "{{ local_var * 2 }}"
+#     # cacheable: true
+
+- name: Show hostname
+  debug:
+    var: ansible_hostname
+
+- name: Copy configuration
+  template:
+    src: config.xml.j2
+    dest: /docker/containers/syncthing/config/config.xml
+    backup: true
+
+# - name: Testing an output
+#   debug:
+#     var: ansible_date_time.iso8601_micro | hash('sha512')
+
+# - name: Get New ID
+#   uri:
+#     url: "http://localhost:8384/rest/svc/deviceid?id={{ ansible_date_time.iso8601_micro | hash('sha512') }}"
+#     method: GET
+#     body_format: json
+#     headers:
+#       X-API-KEY: "{{ api_key.matches[0].apikey }}"
+#     return_contents: yes
+#   register: rest_new_key
+
+# - name: Show new key
+#   debug:
+#     var: rest_new_key
+#curl -s http://localhost:8384/rest/svc/deviceid?id=p56ioi7m--zjnu2iq-gdr-eydm-2mgtmgl3bxnpq6w5btbbz4tjxzwicq | json
 # curl -X GET -H "X-API-Key:{{ api_key.matches[0].apikey }}" http://localhost:8384/rest/system/config
 
 - name: Restart Syncthing
