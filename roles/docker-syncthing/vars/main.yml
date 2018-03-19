@@ -8,4 +8,5 @@ docker_ports:
     - port: 21027
       proto: udp
 
+
 docker_syncthing_device: "{{ vault_docker_syncthing_device }}"
