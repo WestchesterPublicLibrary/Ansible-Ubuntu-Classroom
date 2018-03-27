@@ -5,7 +5,7 @@
 #Classroom02.classroom.library.wpl.lib.in.us
 #Classroom16.classroom.library.wpl.lib.in.us
 #Classroom08.classroom.library.wpl.lib.in.us
-Classroom[01:18].classroom.library.wpl.lib.in.us
+#Classroom[01:18].classroom.library.wpl.lib.in.us
 #Classroom07.classroom.library.wpl.lib.in.us
 #Classroom01.classroom.library.wpl.lib.in.us
 #Classroom16.classroom.library.wpl.lib.in.us
@@ -15,7 +15,7 @@ Classroom[01:18].classroom.library.wpl.lib.in.us
 #192.168.80.131
 #192.168.80.4
 #192.168.80.2
-
+192.168.2.78
 [gluster]
 #Classroom01.classroom.library.wpl.lib.in.us
 #Classroom10.classroom.library.wpl.lib.in.us

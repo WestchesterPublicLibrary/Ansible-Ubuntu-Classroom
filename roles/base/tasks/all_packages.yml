@@ -35,12 +35,10 @@
   - python-pip
   # - tor-browser
   - nfs-common
-  - virtualbox
-  - virtualbox-dkms
-  - virtualbox-ext-pack
-  - virtualbox-guest-additions-iso
-
+  # - virtualbox
+  # - virtualbox-dkms
+  # - virtualbox-ext-pack
+  # - virtualbox-guest-additions-iso
 #Developer packages. These might end up being in their own groups
   - tmux
-  - git
 ...

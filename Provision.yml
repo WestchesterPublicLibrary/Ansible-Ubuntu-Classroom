@@ -27,13 +27,20 @@
         dest: /etc/apt/apt.conf.d/01proxy
         backup: true
 
-    # - name: Update apt cache if needed.
-    #   apt: update_cache=yes cache_valid_time=3600
-    #   when: ansible_os_family == "Debian"
+    - name: Update apt cache if needed.
+      apt:
+        - update_cache: yes
+        - cache_valid_time: 3600
+      when:
+        - ansible_os_family == "Debian"
+        - ansible_os_family == "Pop!_OS"
 
-    # - name: Update System
-    #   package: upgrade=dist
-    #   when: ansible_os_family == "Debian"
+    - name: Update System
+      package:
+        - upgrade: dist
+      when:
+        - ansible_os_family == "Debian"
+        - ansible_os_family == "Pop!_OS"
   roles:
     # - bug-fixes
     - base
@@ -60,7 +67,7 @@
   #
   post_tasks:
     - name: Reboot Computers
-      shell: ( sleep 3 && /sbin/reboot & )
+      shell: ( sleep 3 && /usr/bin/systemctl reboot & )
       async: 0
       poll: 0
       ignore_errors: true
